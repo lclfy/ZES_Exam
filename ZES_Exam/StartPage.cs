@@ -26,8 +26,24 @@ namespace ZES_Exam
         {
             LookFile(0);
             LookFile(1);
+            try
+            {
+                examPaperComboBox.SelectedIndex = 0;
+            }
+            catch(Exception _e)
+            {
+
+            }
+            try
+            {
+                nameComboBox.SelectedIndex = 0;
+            }
+            catch (Exception _e)
+            {
+
+            }
+
             checkStartButton();
-            checkName_btn.Enabled = false;
         }
 
 
@@ -149,6 +165,10 @@ namespace ZES_Exam
             if(nameComboBox.Text.Length != 0)
             {
                 checkName_btn.Enabled = true;
+            }
+            else
+            {
+                checkName_btn.Enabled = false ;
             }
         }
 

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.name_lv = new CCWin.SkinControl.SkinListView();
-            this.title_lb = new CCWin.SkinControl.SkinLabel();
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.title_lb = new CCWin.SkinControl.SkinLabel();
             this.SuspendLayout();
             // 
             // name_lv
@@ -49,6 +49,12 @@
             this.name_lv.TabIndex = 0;
             this.name_lv.UseCompatibleStateImageBehavior = false;
             this.name_lv.View = System.Windows.Forms.View.Details;
+            this.name_lv.SelectedIndexChanged += new System.EventHandler(this.name_lv_SelectedIndexChanged);
+            // 
+            // name
+            // 
+            this.name.Text = "姓名";
+            this.name.Width = 300;
             // 
             // title_lb
             // 
@@ -63,11 +69,6 @@
             this.title_lb.TabIndex = 1;
             this.title_lb.Text = "班组名";
             this.title_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // name
-            // 
-            this.name.Text = "姓名";
-            this.name.Width = 300;
             // 
             // StudentListCheck
             // 

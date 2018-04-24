@@ -71,5 +71,10 @@ namespace ZES_Exam
             name_lv.EndUpdate();
             
         }
+
+        private void name_lv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

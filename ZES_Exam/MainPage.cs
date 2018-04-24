@@ -42,6 +42,7 @@ namespace ZES_Exam
         {
             right_btn.Enabled = false;
             wrong_btn.Enabled = false;
+            updateList();
         }
 
         private Paper getPaper(IWorkbook _paperWorkbook)
@@ -164,7 +165,7 @@ namespace ZES_Exam
                     }
                     else
                     {
-                        _s.grade = "0";
+                        _s.grade = "";
                     }
                     _students.Add(_s);
                 }
@@ -293,9 +294,24 @@ namespace ZES_Exam
             }
         }
 
+        private void updateList()
+        {
+            name_lv.Items.Clear();
+            name_lv.BeginUpdate();
+            foreach (Students _s in allStudents)
+            {
+                ListViewItem _lvi = new ListViewItem(_s.name);
+                _lvi.SubItems.Add(_s.grade);
+                name_lv.Items.Add(_lvi);
+            }
+            name_lv.EndUpdate();
+        }
 
         private void selectStudent_btn_Click(object sender, EventArgs e)
         {
+            wrong_btn.Enabled = false;
+            right_btn.Enabled = false;
+            selectStudent_btn.Enabled = false;
             studentTimer.Start();
         }
 
@@ -337,11 +353,13 @@ namespace ZES_Exam
             {
                 count = 0;
                 int _counter = rd.Next(0, allStudents.Count);
-                studentName_lbl.Text = allStudents[_counter].name +"-分数:" + allStudents[_counter].grade;
+                //studentName_lbl.Text = allStudents[_counter].name +"-分数:" + allStudents[_counter].grade;
+                studentName_lbl.Text = allStudents[_counter].name;
                 studentID = _counter;
                 right_btn.Enabled = true;
                 wrong_btn.Enabled = true;
                 studentTimer.Stop();
+                selectStudent_btn.Enabled = true;
             }
         }
 
@@ -423,11 +441,17 @@ namespace ZES_Exam
         private void right_btn_Click(object sender, EventArgs e)
         {
             allStudents[studentID].grade = allStudents[studentID].grade + "√";
+            right_lbl.Visible = true;
+            rightTimer.Start();
+            updateList();
         }
 
         private void wrong_btn_Click(object sender, EventArgs e)
         {
+            wrongTimer.Start();
+            wrong_lbl.Visible = true;
             allStudents[studentID].grade = allStudents[studentID].grade + "×";
+            updateList();
         }
 
         private void splitScreen_btn_Click(object sender, EventArgs e)
@@ -505,7 +529,7 @@ namespace ZES_Exam
                 {
                     if (onlyOneAnswer)
                     {
-                        splitedScreenPage.answer_lbl.Text = "";
+                        splitedScreenPage.answer_lbl.Text = "请作答";
                     }
                     else
                     {
@@ -517,7 +541,7 @@ namespace ZES_Exam
                     {
                         if (onlyOneAnswer)
                         {
-                            answer_lbl.Text = "";
+                            answer_lbl.Text = "请作答";
                         }
                         else
                         {
@@ -539,6 +563,44 @@ namespace ZES_Exam
         private void question_lbl_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void name_lv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(name_lv.SelectedItems.Count != 0)
+            {
+                studentName_lbl.Text = name_lv.SelectedItems[0].SubItems[0].Text.ToString();
+                studentID = name_lv.SelectedItems[0].Index;
+                right_btn.Enabled = true;
+                wrong_btn.Enabled = true;
+            }
+        }
+
+        //显示提示(1s)
+        private void tipTimer_Tick(object sender, EventArgs e)
+        {
+            if (right_lbl.Visible == true)
+            {
+                right_lbl.Visible = false;
+                rightTimer.Stop();
+            }
+            else
+            {
+                right_lbl.Visible = true;
+            }
+        }
+
+        private void wrongTimer_Tick(object sender, EventArgs e)
+        {
+            if (wrong_lbl.Visible == true)
+            {
+                wrong_lbl.Visible = false;
+                wrongTimer.Stop();
+            }
+            else
+            {
+                wrong_lbl.Visible = true;
+            }
         }
     }
 }
