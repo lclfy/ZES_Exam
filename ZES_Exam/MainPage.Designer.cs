@@ -40,47 +40,51 @@
             this.right_btn = new CCWin.SkinControl.SkinButton();
             this.splitScreen_btn = new CCWin.SkinControl.SkinButton();
             this.showRightAnswer_btn = new CCWin.SkinControl.SkinButton();
+            this.title_gb = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.title_gb.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // question_lbl
             // 
-            this.question_lbl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.question_lbl.BackColor = System.Drawing.Color.Transparent;
             this.question_lbl.BorderColor = System.Drawing.Color.White;
-            this.question_lbl.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.question_lbl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.question_lbl.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.question_lbl.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.question_lbl.Location = new System.Drawing.Point(48, 77);
-            this.question_lbl.MaximumSize = new System.Drawing.Size(500, 150);
-            this.question_lbl.MinimumSize = new System.Drawing.Size(500, 150);
+            this.question_lbl.Location = new System.Drawing.Point(3, 17);
+            this.question_lbl.MaximumSize = new System.Drawing.Size(560, 1000);
+            this.question_lbl.MinimumSize = new System.Drawing.Size(560, 150);
             this.question_lbl.Name = "question_lbl";
-            this.question_lbl.Size = new System.Drawing.Size(500, 150);
+            this.question_lbl.Size = new System.Drawing.Size(560, 150);
             this.question_lbl.TabIndex = 0;
             this.question_lbl.Text = "题目";
             this.question_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.question_lbl.Click += new System.EventHandler(this.question_lbl_Click);
             // 
             // answer_lbl
             // 
             this.answer_lbl.BackColor = System.Drawing.Color.Transparent;
             this.answer_lbl.BorderColor = System.Drawing.Color.White;
+            this.answer_lbl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.answer_lbl.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.answer_lbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.answer_lbl.Location = new System.Drawing.Point(51, 251);
-            this.answer_lbl.MaximumSize = new System.Drawing.Size(500, 100);
-            this.answer_lbl.MinimumSize = new System.Drawing.Size(500, 100);
+            this.answer_lbl.Location = new System.Drawing.Point(3, 17);
+            this.answer_lbl.MaximumSize = new System.Drawing.Size(560, 180);
+            this.answer_lbl.MinimumSize = new System.Drawing.Size(560, 180);
             this.answer_lbl.Name = "answer_lbl";
-            this.answer_lbl.Size = new System.Drawing.Size(500, 100);
+            this.answer_lbl.Size = new System.Drawing.Size(560, 180);
             this.answer_lbl.TabIndex = 1;
             this.answer_lbl.Text = "Answers";
-            this.answer_lbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.answer_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // roll_btn
             // 
             this.roll_btn.BackColor = System.Drawing.Color.Transparent;
             this.roll_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.roll_btn.DownBack = null;
-            this.roll_btn.Location = new System.Drawing.Point(113, 366);
+            this.roll_btn.Location = new System.Drawing.Point(111, 445);
             this.roll_btn.MouseBack = null;
             this.roll_btn.Name = "roll_btn";
             this.roll_btn.NormlBack = null;
@@ -130,7 +134,7 @@
             this.wrong_btn.BackColor = System.Drawing.Color.Transparent;
             this.wrong_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.wrong_btn.DownBack = null;
-            this.wrong_btn.Location = new System.Drawing.Point(637, 408);
+            this.wrong_btn.Location = new System.Drawing.Point(635, 487);
             this.wrong_btn.MouseBack = null;
             this.wrong_btn.Name = "wrong_btn";
             this.wrong_btn.NormlBack = null;
@@ -145,7 +149,7 @@
             this.right_btn.BackColor = System.Drawing.Color.Transparent;
             this.right_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.right_btn.DownBack = null;
-            this.right_btn.Location = new System.Drawing.Point(637, 379);
+            this.right_btn.Location = new System.Drawing.Point(635, 458);
             this.right_btn.MouseBack = null;
             this.right_btn.Name = "right_btn";
             this.right_btn.NormlBack = null;
@@ -175,21 +179,40 @@
             this.showRightAnswer_btn.BackColor = System.Drawing.Color.Transparent;
             this.showRightAnswer_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.showRightAnswer_btn.DownBack = null;
-            this.showRightAnswer_btn.Location = new System.Drawing.Point(306, 366);
+            this.showRightAnswer_btn.Location = new System.Drawing.Point(304, 445);
             this.showRightAnswer_btn.MouseBack = null;
             this.showRightAnswer_btn.Name = "showRightAnswer_btn";
             this.showRightAnswer_btn.NormlBack = null;
             this.showRightAnswer_btn.Size = new System.Drawing.Size(187, 65);
             this.showRightAnswer_btn.TabIndex = 8;
-            this.showRightAnswer_btn.Text = "在分屏中显示答案";
+            this.showRightAnswer_btn.Text = "显示答案";
             this.showRightAnswer_btn.UseVisualStyleBackColor = false;
             this.showRightAnswer_btn.Click += new System.EventHandler(this.showRightAnswer_btn_Click);
+            // 
+            // title_gb
+            // 
+            this.title_gb.Controls.Add(this.question_lbl);
+            this.title_gb.Location = new System.Drawing.Point(29, 80);
+            this.title_gb.Name = "title_gb";
+            this.title_gb.Size = new System.Drawing.Size(560, 168);
+            this.title_gb.TabIndex = 9;
+            this.title_gb.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.answer_lbl);
+            this.groupBox1.Location = new System.Drawing.Point(29, 250);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(563, 199);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
             // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(777, 475);
+            this.ClientSize = new System.Drawing.Size(777, 538);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.showRightAnswer_btn);
             this.Controls.Add(this.splitScreen_btn);
             this.Controls.Add(this.right_btn);
@@ -197,19 +220,18 @@
             this.Controls.Add(this.selectStudent_btn);
             this.Controls.Add(this.studentName_lbl);
             this.Controls.Add(this.roll_btn);
-            this.Controls.Add(this.answer_lbl);
-            this.Controls.Add(this.question_lbl);
+            this.Controls.Add(this.title_gb);
             this.Name = "MainPage";
             this.Text = "MainPage";
             this.Load += new System.EventHandler(this.MainPage_Load);
+            this.title_gb.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private CCWin.SkinControl.SkinLabel question_lbl;
         private CCWin.SkinControl.SkinLabel answer_lbl;
         private CCWin.SkinControl.SkinButton roll_btn;
         private CCWin.SkinControl.SkinLabel studentName_lbl;
@@ -220,5 +242,8 @@
         private CCWin.SkinControl.SkinButton right_btn;
         private CCWin.SkinControl.SkinButton splitScreen_btn;
         private CCWin.SkinControl.SkinButton showRightAnswer_btn;
+        private CCWin.SkinControl.SkinLabel question_lbl;
+        private System.Windows.Forms.GroupBox title_gb;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

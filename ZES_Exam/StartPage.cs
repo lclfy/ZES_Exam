@@ -27,6 +27,7 @@ namespace ZES_Exam
             LookFile(0);
             LookFile(1);
             checkStartButton();
+            checkName_btn.Enabled = false;
         }
 
 
@@ -127,6 +128,13 @@ namespace ZES_Exam
             return workbook;
         }
 
+        private void checkName_btn_Click(object sender, EventArgs e)
+        {
+            IWorkbook nameWorkbook = readData(nameFile[nameComboBox.SelectedIndex].FullName);
+            StudentListCheck form = new StudentListCheck(nameWorkbook);
+            form.Show();
+        }
+
         private void checkStartButton()
         {
             if (nameComboBox.Text.Length == 0 ||
@@ -137,6 +145,10 @@ namespace ZES_Exam
             else
             {
                 startButton.Enabled = true;
+            }
+            if(nameComboBox.Text.Length != 0)
+            {
+                checkName_btn.Enabled = true;
             }
         }
 
@@ -174,5 +186,7 @@ namespace ZES_Exam
                 
             }
         }
+
+
     }
 }

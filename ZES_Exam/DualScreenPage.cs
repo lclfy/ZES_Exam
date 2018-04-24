@@ -31,5 +31,10 @@ namespace ZES_Exam
             main.splitScreenOnWork = false;
             base.OnClosing(e);
         }
+
+        private void answer_lbl_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

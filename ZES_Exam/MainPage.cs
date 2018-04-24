@@ -24,7 +24,9 @@ namespace ZES_Exam
         int questionID = -1;
         int studentID = -1;
         int count = 0;
+        public bool onlyOneAnswer = false;
         public bool splitScreenOnWork = false;
+        public bool showOrHideAnswer = false;
         DualScreenPage splitedScreenPage;
 
         public MainPage(IWorkbook _nameWorkbook, IWorkbook _paperWorkbook, string _nameFile, string _paperFile)
@@ -94,11 +96,11 @@ namespace ZES_Exam
                     {
                         if(row.GetCell(j) != null)
                         {
-                            answers = answers + row.GetCell(j).ToString().Trim() + "-";
+                            answers = answers + row.GetCell(j).ToString().Trim() + "|";
                         }
                         else
                         {
-                            answers = answers + "-";
+                            answers = answers + "|";
                         }
                     }
                 }
@@ -194,7 +196,10 @@ namespace ZES_Exam
         {
             rollingTimer.Start();
             answer_lbl.Text = "";
-            if(splitedScreenPage != null)
+            showOrHideAnswer = false;
+            showRightAnswer_btn.Text = "显示答案";
+            showRightAnswer_btn.Enabled = false;
+            if (splitedScreenPage != null)
             {
                 splitedScreenPage.answer_lbl.Text = "";
             }
@@ -203,23 +208,91 @@ namespace ZES_Exam
 
         private void stopRolling()
         {
+            if (questionID == -1)
+            {
+                return;
+            }
             rollingTimer.Stop();
-            if(paper.questions[questionID].answers != null)
+            showRightAnswer_btn.Enabled = true;
+            if (paper.questions[questionID].answers != null)
             {
                 if(paper.questions[questionID].answers.Length != 0)
                 {
-                    answer_lbl.Text = paper.questions[questionID].answers;
+                    onlyOneAnswer = false;
+                    string[] answers = paper.questions[questionID].answers.Trim().Replace(" ","").Split('|');
+                    string answerString = "";
+                    for(int i = 0; i < answers.Length - 1; i++)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                {
+                                    answerString = answerString+ "A. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    answerString = answerString + "B. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    answerString = answerString + "C. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    answerString = answerString + "D. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    answerString = answerString + "E. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    answerString = answerString + "F. " + answers[i] + "\n";
+                                    break;
+                                }
+                        }
+                        
+                    }
+                    answer_lbl.Text = answerString;
+                    if (splitScreenOnWork)
+                    {
+                        splitedScreenPage.answer_lbl.Text = answerString;
+                        //分屏时主屏直接显示答案
+                        answer_lbl.Text = answer_lbl.Text + "\n" + "正确答案：" + paper.questions[questionID].rightAnswer;
+                    }
                 }
                 else
                 {
-                    answer_lbl.Text = paper.questions[questionID].rightAnswer;
+                    onlyOneAnswer = true;
+                    if (splitScreenOnWork)
+                    {
+                        answer_lbl.Text = splitString(paper.questions[questionID].rightAnswer, 25);
+                    }
+                    else
+                    {
+                        answer_lbl.Text = "请作答";
+                    }
                 }
             }
             else
             {
-                answer_lbl.Text = paper.questions[questionID].rightAnswer;
+                onlyOneAnswer = true;
+                if (splitScreenOnWork)
+                {
+                    answer_lbl.Text = splitString(paper.questions[questionID].rightAnswer,25);
+                }
+                else
+                {
+                    answer_lbl.Text = "请作答";
+                }
             }
         }
+
 
         private void selectStudent_btn_Click(object sender, EventArgs e)
         {
@@ -230,11 +303,29 @@ namespace ZES_Exam
         {
             Random rd = new Random();
             questionID = rd.Next(0, paper.questions.Count);
-            question_lbl.Text = paper.questions[questionID].questionName;
+            question_lbl.Text = splitString(paper.questions[questionID].questionName, 25);
             if (splitedScreenPage != null)
             {
-                splitedScreenPage.question_lbl.Text = paper.questions[questionID].questionName;
+                splitedScreenPage.question_lbl.Text = splitString(paper.questions[questionID].questionName,25);
             }
+        }
+
+        //分割过长字符串
+        private string splitString(string _target, int numOfSplit)
+        {
+            string splitedString = "";
+            for(int i = 0; i <= (_target.Length/numOfSplit); i++)
+            {
+                if(_target.Length - (i * numOfSplit) < numOfSplit)
+                {
+                    splitedString = splitedString + _target.Substring(i * numOfSplit, _target.Length - (i * numOfSplit)) + "\n";
+                }
+                else
+                {
+                    splitedString = splitedString + _target.Substring(i * numOfSplit, numOfSplit) + "\n";
+                }
+            }
+            return splitedString;
         }
 
         private void studentTimer_Tick(object sender, EventArgs e)
@@ -343,29 +434,111 @@ namespace ZES_Exam
         {
             if (!splitScreenOnWork)
             {
+                showOrHideAnswer = false;
+                showRightAnswer();
                 string currentQuestion = "";
                 if(questionID != -1)
                 {
-                    currentQuestion = paper.questions[questionID].questionName;
+                    currentQuestion = splitString(paper.questions[questionID].questionName, 25);
                 }
                 splitedScreenPage = new DualScreenPage(this, currentQuestion);
+                //splitedScreenPage.answer_lbl.Text = answer_lbl.Text;
                 splitedScreenPage.Show();
                 splitScreenOnWork = true;
+                showOrHideAnswer = true;
+                showRightAnswer();
             }
             else
             {
+                showOrHideAnswer = true;
+                showRightAnswer_btn.Text = "隐藏答案";
                 splitedScreenPage.Hide();
                 splitScreenOnWork = false;
             }
         }
+        //显示答案
+        private void showRightAnswer()
+        {
+            if(questionID == -1)
+            {
+                return;
+            }
+            if (!showOrHideAnswer)
+            {
+                if (splitScreenOnWork)
+                {
+                    if (onlyOneAnswer)
+                    {
+                        splitedScreenPage.answer_lbl.Text = splitString(paper.questions[questionID].rightAnswer, 25);
+                    }
+                    else
+                    {
+                        if (!splitedScreenPage.answer_lbl.Text.Contains("正确答案："))
+                        {
+                            splitedScreenPage.answer_lbl.Text = splitedScreenPage.answer_lbl.Text + "\n" + "正确答案：" + paper.questions[questionID].rightAnswer;
+                        }
+                    }
+                }
+                else
+                {//单屏
+                    {
+                        if (onlyOneAnswer)
+                        {
+                            answer_lbl.Text = splitString(paper.questions[questionID].rightAnswer, 25);
+                        }
+                        else
+                        {
+                            if (!answer_lbl.Text.Contains("正确答案："))
+                            {
+                                answer_lbl.Text = answer_lbl.Text + "\n" + "正确答案：" + paper.questions[questionID].rightAnswer;
+                            }
+                        }
 
-        //显示分屏答案
+                    }
+                }
+                showOrHideAnswer = true;
+                showRightAnswer_btn.Text = "隐藏答案";
+            }
+            else
+            {
+                if (splitScreenOnWork)
+                {
+                    if (onlyOneAnswer)
+                    {
+                        splitedScreenPage.answer_lbl.Text = "";
+                    }
+                    else
+                    {
+                        stopRolling();
+                    }
+                }
+                else
+                {//单屏
+                    {
+                        if (onlyOneAnswer)
+                        {
+                            answer_lbl.Text = "";
+                        }
+                        else
+                        {
+                            stopRolling();
+                        }
+
+                    }
+                }
+                showOrHideAnswer = false;
+                showRightAnswer_btn.Text = "显示答案";
+            }
+        }
+
         private void showRightAnswer_btn_Click(object sender, EventArgs e)
         {
-            if (splitedScreenPage != null)
-            {
-                splitedScreenPage.answer_lbl.Text = paper.questions[questionID].rightAnswer;
-            }
+            showRightAnswer();
+        }
+
+        private void question_lbl_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

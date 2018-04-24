@@ -35,6 +35,7 @@
             this.skinLabel2 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
             this.startButton = new CCWin.SkinControl.SkinButton();
+            this.checkName_btn = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // skinLabel1
@@ -44,11 +45,11 @@
             this.skinLabel1.BorderColor = System.Drawing.Color.Transparent;
             this.skinLabel1.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinLabel1.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.skinLabel1.Location = new System.Drawing.Point(208, 50);
+            this.skinLabel1.Location = new System.Drawing.Point(84, 55);
             this.skinLabel1.Name = "skinLabel1";
-            this.skinLabel1.Size = new System.Drawing.Size(75, 38);
+            this.skinLabel1.Size = new System.Drawing.Size(307, 38);
             this.skinLabel1.TabIndex = 1;
-            this.skinLabel1.Text = "欢迎";
+            this.skinLabel1.Text = "郑州东站职工培训系统";
             // 
             // nameComboBox
             // 
@@ -121,6 +122,18 @@
             this.startButton.UseVisualStyleBackColor = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
+            // checkName_btn
+            // 
+            this.checkName_btn.AutoSize = true;
+            this.checkName_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.checkName_btn.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.checkName_btn.Location = new System.Drawing.Point(211, 286);
+            this.checkName_btn.Name = "checkName_btn";
+            this.checkName_btn.Size = new System.Drawing.Size(65, 20);
+            this.checkName_btn.TabIndex = 9;
+            this.checkName_btn.Text = "查看名单";
+            this.checkName_btn.Click += new System.EventHandler(this.checkName_btn_Click);
+            // 
             // StartPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -129,7 +142,8 @@
             this.BorderColor = System.Drawing.Color.White;
             this.CaptionBackColorBottom = System.Drawing.Color.White;
             this.CaptionBackColorTop = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(489, 306);
+            this.ClientSize = new System.Drawing.Size(489, 320);
+            this.Controls.Add(this.checkName_btn);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.skinLabel3);
             this.Controls.Add(this.skinLabel2);
@@ -137,8 +151,8 @@
             this.Controls.Add(this.nameComboBox);
             this.Controls.Add(this.skinLabel1);
             this.EffectBack = System.Drawing.Color.Transparent;
-            this.MaximumSize = new System.Drawing.Size(489, 306);
-            this.MinimumSize = new System.Drawing.Size(489, 306);
+            this.MaximumSize = new System.Drawing.Size(489, 320);
+            this.MinimumSize = new System.Drawing.Size(489, 320);
             this.Name = "StartPage";
             this.Text = "Form1";
             this.TitleColor = System.Drawing.Color.Transparent;
@@ -156,6 +170,7 @@
         private CCWin.SkinControl.SkinLabel skinLabel2;
         private CCWin.SkinControl.SkinLabel skinLabel3;
         private CCWin.SkinControl.SkinButton startButton;
+        private System.Windows.Forms.Label checkName_btn;
     }
 }
 
