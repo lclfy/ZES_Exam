@@ -17,6 +17,9 @@ namespace ZES_Exam
     {
         List<FileInfo> nameFile = new List<FileInfo>();
         List<FileInfo> paperFile = new List<FileInfo>();
+        List<FileInfo> logFile = new List<FileInfo>();
+        string logFileName = "";
+        IWorkbook logWorkBook;
         public StartPage()
         {
             InitializeComponent();
@@ -26,6 +29,7 @@ namespace ZES_Exam
         {
             LookFile(0);
             LookFile(1);
+            LookFile(2);
             try
             {
                 examPaperComboBox.SelectedIndex = 0;
@@ -57,6 +61,9 @@ namespace ZES_Exam
             }else if(mode == 1)
             {
                 startPath = "题库";
+            }else if(mode == 2)
+            {
+                startPath = "日志";
             }
             string pathname = Application.StartupPath + "\\" + startPath + "\\" + extraFolder;
             if (pathname.Trim().Length == 0)//判断文件名不为空
@@ -81,6 +88,9 @@ namespace ZES_Exam
                         else if (mode == 1)
                         {
                             paperFile.Add(_file);
+                        }else if(mode == 2)
+                        {
+                            logFile.Add(_file);
                         }
                     }
                 }
@@ -101,6 +111,91 @@ namespace ZES_Exam
                 foreach (FileInfo _file in paperFile)
                 {
                     examPaperComboBox.Items.Add(_file.Name);
+                }
+            }
+            else if(mode == 2)
+            {
+                bool hasGotIt = false;
+                foreach (FileInfo _file in logFile)
+                {
+                    if (hasGotIt)
+                    {
+                        break;
+                    }
+                    if (_file.FullName.Contains(DateTime.Now.ToString("yyyyMM")))
+                    {
+                        logWorkBook = readData(_file.FullName);
+                        logFileName = _file.FullName;
+                        hasGotIt = true;
+                    }
+                }
+                if (!hasGotIt)
+                {
+                    logFileName = Application.StartupPath + "\\" + startPath + "\\" + "Log-" + DateTime.Now.ToString("yyyyMM") + ".xls";
+                    //创建Excel文件名称
+                    FileStream fs = File.Create(logFileName);
+                    //创建工作薄
+                    IWorkbook workbook = new HSSFWorkbook();
+                    ISheet sheet = workbook.CreateSheet("log");
+                    for(int k =0; k< 2; k++)
+                    {
+                        IRow row = sheet.CreateRow(k);
+                        switch (k)
+                        {
+                            case 0:
+                                row.CreateCell(0).SetCellValue("Log-" + DateTime.Now.ToString("yyyyMM"));
+                                break;
+                            case 1:
+                                for(int m = 0; m<9; m++)
+                                {
+                                    switch (m)
+                                    {
+                                        case 0:
+                                            row.CreateCell(m).SetCellValue("时间-time");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 1:
+                                            row.CreateCell(m).SetCellValue("正答-rightOrWrong");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 2:
+                                            row.CreateCell(m).SetCellValue("姓名-studentName");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 3:
+                                            row.CreateCell(m).SetCellValue("人员所在文件-studentFile");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 4:
+                                            row.CreateCell(m).SetCellValue("班组名-className");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 5:
+                                            row.CreateCell(m).SetCellValue("试卷名-testName");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 6:
+                                            row.CreateCell(m).SetCellValue("试卷文件-testFile");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 7:
+                                            row.CreateCell(m).SetCellValue("问题名-questionName");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                        case 8:
+                                            row.CreateCell(m).SetCellValue("答案-rightAnswer");
+                                            sheet.SetColumnWidth(m, 30 * 256);
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                    //向excel文件中写入数据并保保存
+                    workbook.Write(fs);
+                    fs.Close();
+                    //再读取一下
+                    logWorkBook = readData(logFileName);
                 }
             }
         }
@@ -189,7 +284,7 @@ namespace ZES_Exam
             if(nameWorkbook != null &&
                 paperWorkbook != null)
             {
-                MainPage page = new MainPage(nameWorkbook,paperWorkbook, nameFile[nameComboBox.SelectedIndex].FullName, paperFile[examPaperComboBox.SelectedIndex].FullName);
+                MainPage page = new MainPage(nameWorkbook,paperWorkbook, logWorkBook, nameFile[nameComboBox.SelectedIndex].FullName, paperFile[examPaperComboBox.SelectedIndex].FullName, logFileName);
                 page.Show();
                 this.Hide();
             }

@@ -58,39 +58,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DualScreenPage.cs">
+    <Compile Include="Model\DataLogModel.cs" />
+    <Compile Include="ViewController\DualScreenPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DualScreenPage.Designer.cs">
+    <Compile Include="ViewController\DualScreenPage.Designer.cs">
       <DependentUpon>DualScreenPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.cs">
+    <Compile Include="ViewController\MainPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainPage.Designer.cs">
+    <Compile Include="ViewController\MainPage.Designer.cs">
       <DependentUpon>MainPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Paper.cs" />
-    <Compile Include="Question.cs" />
-    <Compile Include="StartPage.cs">
+    <Compile Include="Model\Paper.cs" />
+    <Compile Include="Model\Question.cs" />
+    <Compile Include="ViewController\RankSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartPage.Designer.cs">
+    <Compile Include="ViewController\RankSettings.Designer.cs">
+      <DependentUpon>RankSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewController\StartPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewController\StartPage.Designer.cs">
       <DependentUpon>StartPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StudentListCheck.cs">
+    <Compile Include="ViewController\StudentListCheck.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StudentListCheck.Designer.cs">
+    <Compile Include="ViewController\StudentListCheck.Designer.cs">
       <DependentUpon>StudentListCheck.cs</DependentUpon>
     </Compile>
-    <Compile Include="Students.cs" />
-    <EmbeddedResource Include="DualScreenPage.resx">
+    <Compile Include="Model\Students.cs" />
+    <EmbeddedResource Include="ViewController\DualScreenPage.resx">
       <DependentUpon>DualScreenPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainPage.resx">
+    <EmbeddedResource Include="ViewController\MainPage.resx">
       <DependentUpon>MainPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -103,10 +110,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="StartPage.resx">
+    <EmbeddedResource Include="ViewController\RankSettings.resx">
+      <DependentUpon>RankSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewController\StartPage.resx">
       <DependentUpon>StartPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StudentListCheck.resx">
+    <EmbeddedResource Include="ViewController\StudentListCheck.resx">
       <DependentUpon>StudentListCheck.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

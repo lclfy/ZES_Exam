@@ -8,6 +8,7 @@ namespace ZES_Exam
     {
         public string name { get; set; }
         public string grade { get; set; }
+        public int rankGrade { get; set; }
         public string id { get; set; }
     }
 }

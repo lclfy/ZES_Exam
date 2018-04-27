@@ -76,5 +76,10 @@ namespace ZES_Exam
         {
 
         }
+
+        private void title_lb_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

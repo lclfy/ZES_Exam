@@ -54,6 +54,7 @@
             // nameComboBox
             // 
             this.nameComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.nameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.nameComboBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.nameComboBox.FormattingEnabled = true;
             this.nameComboBox.Location = new System.Drawing.Point(149, 121);
@@ -67,6 +68,7 @@
             // examPaperComboBox
             // 
             this.examPaperComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.examPaperComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.examPaperComboBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.examPaperComboBox.FormattingEnabled = true;
             this.examPaperComboBox.Location = new System.Drawing.Point(149, 167);
@@ -151,6 +153,7 @@
             this.Controls.Add(this.nameComboBox);
             this.Controls.Add(this.skinLabel1);
             this.EffectBack = System.Drawing.Color.Transparent;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximumSize = new System.Drawing.Size(489, 320);
             this.MinimumSize = new System.Drawing.Size(489, 320);
             this.Name = "StartPage";

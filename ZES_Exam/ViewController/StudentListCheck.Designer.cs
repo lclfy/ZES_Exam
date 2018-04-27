@@ -69,6 +69,7 @@
             this.title_lb.TabIndex = 1;
             this.title_lb.Text = "班组名";
             this.title_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.title_lb.Click += new System.EventHandler(this.title_lb_Click);
             // 
             // StudentListCheck
             // 

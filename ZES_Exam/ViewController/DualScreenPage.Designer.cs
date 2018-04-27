@@ -41,11 +41,11 @@
             this.answer_lbl.BorderColor = System.Drawing.Color.White;
             this.answer_lbl.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.answer_lbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.answer_lbl.Location = new System.Drawing.Point(114, 270);
-            this.answer_lbl.MaximumSize = new System.Drawing.Size(500, 200);
-            this.answer_lbl.MinimumSize = new System.Drawing.Size(500, 200);
+            this.answer_lbl.Location = new System.Drawing.Point(139, 372);
+            this.answer_lbl.MaximumSize = new System.Drawing.Size(720, 250);
+            this.answer_lbl.MinimumSize = new System.Drawing.Size(720, 250);
             this.answer_lbl.Name = "answer_lbl";
-            this.answer_lbl.Size = new System.Drawing.Size(500, 200);
+            this.answer_lbl.Size = new System.Drawing.Size(720, 250);
             this.answer_lbl.TabIndex = 5;
             this.answer_lbl.Text = "Answers";
             this.answer_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -60,11 +60,11 @@
             this.question_lbl.BorderColor = System.Drawing.Color.White;
             this.question_lbl.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.question_lbl.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.question_lbl.Location = new System.Drawing.Point(113, 102);
-            this.question_lbl.MaximumSize = new System.Drawing.Size(500, 168);
-            this.question_lbl.MinimumSize = new System.Drawing.Size(500, 168);
+            this.question_lbl.Location = new System.Drawing.Point(138, 101);
+            this.question_lbl.MaximumSize = new System.Drawing.Size(720, 250);
+            this.question_lbl.MinimumSize = new System.Drawing.Size(720, 250);
             this.question_lbl.Name = "question_lbl";
-            this.question_lbl.Size = new System.Drawing.Size(500, 168);
+            this.question_lbl.Size = new System.Drawing.Size(720, 250);
             this.question_lbl.TabIndex = 4;
             this.question_lbl.Text = "题目";
             this.question_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -74,11 +74,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(761, 546);
+            this.ClientSize = new System.Drawing.Size(1024, 700);
             this.Controls.Add(this.answer_lbl);
             this.Controls.Add(this.question_lbl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "DualScreenPage";
-            this.Text = "DualScreenPage";
+            this.Text = "";
             this.Load += new System.EventHandler(this.DualScreenPage_Load);
             this.ResumeLayout(false);
 

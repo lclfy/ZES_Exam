@@ -10,6 +10,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using System.IO;
+using ZES_Exam.ViewController;
 
 namespace ZES_Exam
 {
@@ -17,22 +18,29 @@ namespace ZES_Exam
     {
         private string nameFile;
         private string paperFile;
+        private string logFile;
         private int gradeColumnOfNameFile = -1;
         List<Students> allStudents;
         Paper paper;
+        List<DataLogModel> allTestLogs = new List<DataLogModel>();
+        IWorkbook logWorkbook;
         bool rolling = false;
         int questionID = -1;
         int studentID = -1;
         int count = 0;
+        string className = "";
         public bool onlyOneAnswer = false;
         public bool splitScreenOnWork = false;
         public bool showOrHideAnswer = false;
         DualScreenPage splitedScreenPage;
 
-        public MainPage(IWorkbook _nameWorkbook, IWorkbook _paperWorkbook, string _nameFile, string _paperFile)
+
+        public MainPage(IWorkbook _nameWorkbook, IWorkbook _paperWorkbook,IWorkbook _logWorkbook, string _nameFile, string _paperFile, string _logFile)
         {
             this.nameFile = _nameFile;
             this.paperFile = _paperFile;
+            this.logFile = _logFile;
+            logWorkbook = _logWorkbook;
             paper = getPaper(_paperWorkbook);
             allStudents = getStudents(_nameWorkbook);
             InitializeComponent();
@@ -116,8 +124,16 @@ namespace ZES_Exam
         {
             List<Students> _students = new List<Students>();
             ISheet sheet = _nameWorkbook.GetSheetAt(0);  //获取第一个工作表  
+            //标题
+            if (sheet.GetRow(0) != null)
+            {
+                if (sheet.GetRow(0).GetCell(0) != null)
+                {
+                    className = sheet.GetRow(0).GetCell(0).ToString().Trim();
+                }
+            }
             //找到当前试卷所在的列（没有的新建）
-            if(sheet.GetRow(1)!= null)
+            if (sheet.GetRow(1)!= null)
             {
                 int currentPaperColumn = -1;
                 IRow row = sheet.GetRow(1);
@@ -375,6 +391,7 @@ namespace ZES_Exam
             base.OnClosing(e);
         }
 
+        //保存
         private void save()
         {
             IWorkbook workbook = null;  //新建IWorkbook对象  
@@ -436,12 +453,79 @@ namespace ZES_Exam
             {
                 MessageBox.Show("访问文件出错：\n" + e.ToString().Split('。')[0]);
             }
+
+            //保存记录
+            ISheet sheet = logWorkbook.GetSheetAt(0);
+            int lastRow = sheet.LastRowNum;
+            for (int i = lastRow + 1; i < lastRow + allTestLogs.Count; i++)
+            {
+                IRow row = sheet.CreateRow(i);
+                DataLogModel _model = allTestLogs[i - lastRow];
+                    for (int j = 0; j < 9; j++)
+                    {
+                        if (row.GetCell(j) == null)
+                        {
+                            row.CreateCell(j);
+                        }
+                        switch (j)
+                        {
+                            case 0:
+                                row.GetCell(j).SetCellValue(_model.time);
+                                break;
+                            case 1:
+                                if(_model.rightOrWrong)
+                                {
+                                    row.GetCell(j).SetCellValue("√");
+                                }
+                                else
+                                {
+                                    row.GetCell(j).SetCellValue("×");
+                                }
+                                break;
+                            case 2:
+                                row.GetCell(j).SetCellValue(_model.studentName);
+                                break;
+                            case 3:
+                                row.GetCell(j).SetCellValue(_model.studentFile);
+                                break;
+                            case 4:
+                                row.GetCell(j).SetCellValue(_model.className);
+                                break;
+                            case 5:
+                                row.GetCell(j).SetCellValue(_model.testName);
+                                break;
+                            case 6:
+                                row.GetCell(j).SetCellValue(_model.testFile);
+                                break;
+                            case 7:
+                                row.GetCell(j).SetCellValue(_model.questionName);
+                                break;
+                            case 8:
+                                row.GetCell(j).SetCellValue(_model.rightAnswer);
+                                break;
+                        }
+                    }
+
+            }
+            try
+            {
+                FileStream fs = File.Create(logFile);
+                //向excel文件中写入数据并保保存
+                logWorkbook.Write(fs);
+                fs.Close();
+            }catch(Exception e)
+            {
+                MessageBox.Show(e.ToString().Split('。')[1]);
+            }
+
+
         }
 
         private void right_btn_Click(object sender, EventArgs e)
         {
             allStudents[studentID].grade = allStudents[studentID].grade + "√";
             right_lbl.Visible = true;
+            logTestData(true);
             rightTimer.Start();
             updateList();
         }
@@ -450,6 +534,7 @@ namespace ZES_Exam
         {
             wrongTimer.Start();
             wrong_lbl.Visible = true;
+            logTestData(false);
             allStudents[studentID].grade = allStudents[studentID].grade + "×";
             updateList();
         }
@@ -555,6 +640,71 @@ namespace ZES_Exam
             }
         }
 
+        //保存时用于记录答案和正确答案
+        private string getRightAnswer()
+        {
+            string rightAnswer = "";
+            if (questionID == -1)
+            {
+                return rightAnswer;
+            }
+            if (paper.questions[questionID].answers != null)
+            {
+                if (paper.questions[questionID].answers.Length != 0)
+                {
+                    string[] answers = paper.questions[questionID].answers.Trim().Replace(" ", "").Split('|');
+                    string answerString = "";
+                    for (int i = 0; i < answers.Length - 1; i++)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                {
+                                    answerString = answerString + "A. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    answerString = answerString + "B. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    answerString = answerString + "C. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    answerString = answerString + "D. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    answerString = answerString + "E. " + answers[i] + "\n";
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    answerString = answerString + "F. " + answers[i] + "\n";
+                                    break;
+                                }
+                        }
+
+                    }
+                    rightAnswer = answerString + "\n" + "正确答案：" + paper.questions[questionID].rightAnswer;
+                }
+                else
+                {
+                    rightAnswer = paper.questions[questionID].rightAnswer;
+                }
+            }
+            else
+            {
+                rightAnswer = paper.questions[questionID].rightAnswer;
+            }
+            return rightAnswer;
+        }
+
         private void showRightAnswer_btn_Click(object sender, EventArgs e)
         {
             showRightAnswer();
@@ -576,7 +726,7 @@ namespace ZES_Exam
             }
         }
 
-        //显示提示(1s)
+        //反馈提示(1s)
         private void tipTimer_Tick(object sender, EventArgs e)
         {
             if (right_lbl.Visible == true)
@@ -600,6 +750,38 @@ namespace ZES_Exam
             else
             {
                 wrong_lbl.Visible = true;
+            }
+        }
+
+        //每次答题自动记录
+        private void logTestData(bool rightOrWrong)
+        {
+            if(studentID != -1 && questionID != -1)
+            {
+                DataLogModel _model = new DataLogModel();
+                _model.rightOrWrong = rightOrWrong;
+                _model.time = DateTime.Now.ToString("yyyyMMdd-hh:mm");
+                _model.studentName = allStudents[studentID].name;
+                _model.studentFile = nameFile.Split('\\')[nameFile.Split('\\').Length - 1];
+                _model.className = className;
+                _model.testName = paper.paperName;
+                _model.testFile = paperFile.Split('\\')[nameFile.Split('\\').Length - 1];
+                _model.questionName = paper.questions[questionID].questionName;
+                _model.rightAnswer = getRightAnswer();
+                allTestLogs.Add(_model);
+            }
+        }
+
+        private void rankMode_cb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rankMode_cb.Checked)
+            {//进入
+                RankSettings _dialog = new RankSettings();
+                _dialog.Show();
+            }
+            else
+            {//退出
+                
             }
         }
     }
