@@ -59,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DataLogModel.cs" />
+    <Compile Include="Model\QuestionCategory.cs" />
+    <Compile Include="Model\SettingModel.cs" />
+    <Compile Include="mySorter.cs" />
     <Compile Include="ViewController\DualScreenPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,11 +76,11 @@
     </Compile>
     <Compile Include="Model\Paper.cs" />
     <Compile Include="Model\Question.cs" />
-    <Compile Include="ViewController\RankSettings.cs">
+    <Compile Include="ViewController\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewController\RankSettings.Designer.cs">
-      <DependentUpon>RankSettings.cs</DependentUpon>
+    <Compile Include="ViewController\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewController\StartPage.cs">
       <SubType>Form</SubType>
@@ -110,8 +113,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ViewController\RankSettings.resx">
-      <DependentUpon>RankSettings.cs</DependentUpon>
+    <EmbeddedResource Include="ViewController\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewController\StartPage.resx">
       <DependentUpon>StartPage.cs</DependentUpon>

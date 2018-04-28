@@ -42,9 +42,6 @@
             this.showRightAnswer_btn = new CCWin.SkinControl.SkinButton();
             this.title_gb = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.name_lv = new CCWin.SkinControl.SkinListView();
-            this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.score = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.wrong_lbl = new CCWin.SkinControl.SkinLabel();
             this.right_lbl = new CCWin.SkinControl.SkinLabel();
@@ -52,7 +49,11 @@
             this.wrongTimer = new System.Windows.Forms.Timer(this.components);
             this.skinGroupBox2 = new CCWin.SkinControl.SkinGroupBox();
             this.rankMode_cb = new CCWin.SkinControl.SkinCheckBox();
-            this.skinButton1 = new CCWin.SkinControl.SkinButton();
+            this.setting_btn = new CCWin.SkinControl.SkinButton();
+            this.back_btn = new CCWin.SkinControl.SkinButton();
+            this.name_lv = new System.Windows.Forms.ListView();
+            this._name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._score = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.title_gb.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.skinGroupBox1.SuspendLayout();
@@ -96,9 +97,10 @@
             // 
             this.roll_btn.BackColor = System.Drawing.Color.Transparent;
             this.roll_btn.BaseColor = System.Drawing.Color.DodgerBlue;
+            this.roll_btn.BorderColor = System.Drawing.Color.DodgerBlue;
             this.roll_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.roll_btn.DownBack = null;
-            this.roll_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.roll_btn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.roll_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.roll_btn.Location = new System.Drawing.Point(233, 609);
             this.roll_btn.MouseBack = null;
@@ -127,11 +129,12 @@
             // 
             this.selectStudent_btn.BackColor = System.Drawing.Color.Transparent;
             this.selectStudent_btn.BaseColor = System.Drawing.Color.DodgerBlue;
+            this.selectStudent_btn.BorderColor = System.Drawing.Color.DodgerBlue;
             this.selectStudent_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.selectStudent_btn.DownBack = null;
-            this.selectStudent_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.selectStudent_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.selectStudent_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.selectStudent_btn.Location = new System.Drawing.Point(827, 550);
+            this.selectStudent_btn.Location = new System.Drawing.Point(826, 563);
             this.selectStudent_btn.MouseBack = null;
             this.selectStudent_btn.Name = "selectStudent_btn";
             this.selectStudent_btn.NormlBack = null;
@@ -153,7 +156,8 @@
             // wrong_btn
             // 
             this.wrong_btn.BackColor = System.Drawing.Color.Transparent;
-            this.wrong_btn.BaseColor = System.Drawing.Color.DodgerBlue;
+            this.wrong_btn.BaseColor = System.Drawing.Color.Crimson;
+            this.wrong_btn.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.wrong_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.wrong_btn.DownBack = null;
             this.wrong_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -171,7 +175,8 @@
             // right_btn
             // 
             this.right_btn.BackColor = System.Drawing.Color.Transparent;
-            this.right_btn.BaseColor = System.Drawing.Color.DodgerBlue;
+            this.right_btn.BaseColor = System.Drawing.Color.DarkCyan;
+            this.right_btn.BorderColor = System.Drawing.Color.Green;
             this.right_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.right_btn.DownBack = null;
             this.right_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -194,11 +199,11 @@
             this.splitScreen_btn.DownBack = null;
             this.splitScreen_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.splitScreen_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.splitScreen_btn.Location = new System.Drawing.Point(55, 51);
+            this.splitScreen_btn.Location = new System.Drawing.Point(631, 45);
             this.splitScreen_btn.MouseBack = null;
             this.splitScreen_btn.Name = "splitScreen_btn";
             this.splitScreen_btn.NormlBack = null;
-            this.splitScreen_btn.Size = new System.Drawing.Size(75, 23);
+            this.splitScreen_btn.Size = new System.Drawing.Size(71, 32);
             this.splitScreen_btn.TabIndex = 7;
             this.splitScreen_btn.Text = "分屏模式";
             this.splitScreen_btn.UseVisualStyleBackColor = false;
@@ -210,7 +215,7 @@
             this.showRightAnswer_btn.BaseColor = System.Drawing.Color.DodgerBlue;
             this.showRightAnswer_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.showRightAnswer_btn.DownBack = null;
-            this.showRightAnswer_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.showRightAnswer_btn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.showRightAnswer_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.showRightAnswer_btn.Location = new System.Drawing.Point(426, 609);
             this.showRightAnswer_btn.MouseBack = null;
@@ -240,35 +245,6 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
-            // name_lv
-            // 
-            this.name_lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.name,
-            this.score});
-            this.name_lv.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.name_lv.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.name_lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.name_lv.Location = new System.Drawing.Point(827, 89);
-            this.name_lv.Name = "name_lv";
-            this.name_lv.OwnerDraw = true;
-            this.name_lv.RowBackColor2 = System.Drawing.Color.Gainsboro;
-            this.name_lv.ShowGroups = false;
-            this.name_lv.Size = new System.Drawing.Size(145, 337);
-            this.name_lv.TabIndex = 12;
-            this.name_lv.UseCompatibleStateImageBehavior = false;
-            this.name_lv.View = System.Windows.Forms.View.Details;
-            this.name_lv.SelectedIndexChanged += new System.EventHandler(this.name_lv_SelectedIndexChanged);
-            // 
-            // name
-            // 
-            this.name.Text = "姓名";
-            this.name.Width = 70;
-            // 
-            // score
-            // 
-            this.score.Text = "分数";
-            this.score.Width = 70;
-            // 
             // skinGroupBox1
             // 
             this.skinGroupBox1.BackColor = System.Drawing.Color.Transparent;
@@ -282,7 +258,7 @@
             this.skinGroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.skinGroupBox1.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinGroupBox1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.skinGroupBox1.Location = new System.Drawing.Point(827, 432);
+            this.skinGroupBox1.Location = new System.Drawing.Point(826, 445);
             this.skinGroupBox1.Name = "skinGroupBox1";
             this.skinGroupBox1.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox1.RoundStyle = CCWin.SkinClass.RoundStyle.All;
@@ -341,14 +317,14 @@
             this.skinGroupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.skinGroupBox2.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinGroupBox2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.skinGroupBox2.Location = new System.Drawing.Point(827, 608);
+            this.skinGroupBox2.Location = new System.Drawing.Point(826, 609);
             this.skinGroupBox2.Name = "skinGroupBox2";
             this.skinGroupBox2.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox2.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox2.Size = new System.Drawing.Size(145, 48);
+            this.skinGroupBox2.Size = new System.Drawing.Size(145, 54);
             this.skinGroupBox2.TabIndex = 14;
             this.skinGroupBox2.TabStop = false;
-            this.skinGroupBox2.Text = " 竞赛模式(计分制)";
+            this.skinGroupBox2.Text = "竞赛计分";
             this.skinGroupBox2.TitleBorderColor = System.Drawing.Color.DarkGray;
             this.skinGroupBox2.TitleRectBackColor = System.Drawing.Color.Gray;
             this.skinGroupBox2.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
@@ -374,22 +350,69 @@
             this.rankMode_cb.UseVisualStyleBackColor = false;
             this.rankMode_cb.CheckedChanged += new System.EventHandler(this.rankMode_cb_CheckedChanged);
             // 
-            // skinButton1
+            // setting_btn
             // 
-            this.skinButton1.BackColor = System.Drawing.Color.Transparent;
-            this.skinButton1.BaseColor = System.Drawing.Color.DodgerBlue;
-            this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinButton1.DownBack = null;
-            this.skinButton1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinButton1.ForeColor = System.Drawing.SystemColors.Control;
-            this.skinButton1.Location = new System.Drawing.Point(827, 662);
-            this.skinButton1.MouseBack = null;
-            this.skinButton1.Name = "skinButton1";
-            this.skinButton1.NormlBack = null;
-            this.skinButton1.Size = new System.Drawing.Size(145, 23);
-            this.skinButton1.TabIndex = 1;
-            this.skinButton1.Text = "计分设置";
-            this.skinButton1.UseVisualStyleBackColor = false;
+            this.setting_btn.BackColor = System.Drawing.Color.Transparent;
+            this.setting_btn.BaseColor = System.Drawing.Color.Crimson;
+            this.setting_btn.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.setting_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.setting_btn.DownBack = null;
+            this.setting_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.setting_btn.ForeColor = System.Drawing.SystemColors.Control;
+            this.setting_btn.Location = new System.Drawing.Point(704, 45);
+            this.setting_btn.MouseBack = null;
+            this.setting_btn.Name = "setting_btn";
+            this.setting_btn.NormlBack = null;
+            this.setting_btn.Size = new System.Drawing.Size(71, 32);
+            this.setting_btn.TabIndex = 1;
+            this.setting_btn.Text = "设置";
+            this.setting_btn.UseVisualStyleBackColor = false;
+            this.setting_btn.Click += new System.EventHandler(this.setting_btn_Click);
+            // 
+            // back_btn
+            // 
+            this.back_btn.BackColor = System.Drawing.Color.Transparent;
+            this.back_btn.BaseColor = System.Drawing.Color.OrangeRed;
+            this.back_btn.BorderColor = System.Drawing.Color.DarkOrange;
+            this.back_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.back_btn.DownBack = null;
+            this.back_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.back_btn.ForeColor = System.Drawing.SystemColors.Control;
+            this.back_btn.Location = new System.Drawing.Point(55, 45);
+            this.back_btn.MouseBack = null;
+            this.back_btn.Name = "back_btn";
+            this.back_btn.NormlBack = null;
+            this.back_btn.Size = new System.Drawing.Size(94, 32);
+            this.back_btn.TabIndex = 15;
+            this.back_btn.Text = "返回选择界面";
+            this.back_btn.UseVisualStyleBackColor = false;
+            this.back_btn.Click += new System.EventHandler(this.back_btn_Click);
+            // 
+            // name_lv
+            // 
+            this.name_lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this._name,
+            this._score});
+            this.name_lv.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.name_lv.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.name_lv.Location = new System.Drawing.Point(827, 89);
+            this.name_lv.MultiSelect = false;
+            this.name_lv.Name = "name_lv";
+            this.name_lv.Size = new System.Drawing.Size(138, 350);
+            this.name_lv.TabIndex = 16;
+            this.name_lv.UseCompatibleStateImageBehavior = false;
+            this.name_lv.View = System.Windows.Forms.View.Details;
+            this.name_lv.SelectedIndexChanged += new System.EventHandler(this.name_lv_SelectedIndexChanged);
+            // 
+            // _name
+            // 
+            this._name.Text = "姓名";
+            this._name.Width = 70;
+            // 
+            // _score
+            // 
+            this._score.Text = "成绩";
+            this._score.Width = 70;
             // 
             // MainPage
             // 
@@ -399,9 +422,10 @@
             this.BackLayout = false;
             this.BorderColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1024, 700);
-            this.Controls.Add(this.skinButton1);
-            this.Controls.Add(this.skinGroupBox2);
             this.Controls.Add(this.name_lv);
+            this.Controls.Add(this.back_btn);
+            this.Controls.Add(this.setting_btn);
+            this.Controls.Add(this.skinGroupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.showRightAnswer_btn);
             this.Controls.Add(this.splitScreen_btn);
@@ -438,16 +462,17 @@
         private CCWin.SkinControl.SkinLabel question_lbl;
         private System.Windows.Forms.GroupBox title_gb;
         private System.Windows.Forms.GroupBox groupBox1;
-        private CCWin.SkinControl.SkinListView name_lv;
-        private System.Windows.Forms.ColumnHeader name;
-        private System.Windows.Forms.ColumnHeader score;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private CCWin.SkinControl.SkinLabel wrong_lbl;
         private CCWin.SkinControl.SkinLabel right_lbl;
         private System.Windows.Forms.Timer rightTimer;
         private System.Windows.Forms.Timer wrongTimer;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox2;
-        private CCWin.SkinControl.SkinCheckBox rankMode_cb;
-        private CCWin.SkinControl.SkinButton skinButton1;
+        private CCWin.SkinControl.SkinButton setting_btn;
+        private CCWin.SkinControl.SkinButton back_btn;
+        public CCWin.SkinControl.SkinCheckBox rankMode_cb;
+        private System.Windows.Forms.ColumnHeader _name;
+        private System.Windows.Forms.ColumnHeader _score;
+        public System.Windows.Forms.ListView name_lv;
     }
 }

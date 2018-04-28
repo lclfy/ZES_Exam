@@ -11,6 +11,7 @@ using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using System.IO;
 using ZES_Exam.ViewController;
+using ZES_Exam.Model;
 
 namespace ZES_Exam
 {
@@ -23,6 +24,8 @@ namespace ZES_Exam
         List<Students> allStudents;
         Paper paper;
         List<DataLogModel> allTestLogs = new List<DataLogModel>();
+        public SettingModel settingModel;
+        public List<string> allChosenCategories;
         IWorkbook logWorkbook;
         bool rolling = false;
         int questionID = -1;
@@ -30,19 +33,27 @@ namespace ZES_Exam
         int count = 0;
         string className = "";
         public bool onlyOneAnswer = false;
+        public bool firstTimeChecked = false;
         public bool splitScreenOnWork = false;
         public bool showOrHideAnswer = false;
+        public bool getAnyException = false;
         DualScreenPage splitedScreenPage;
+        StartPage startPage;
+        //列表排序用
+        private mySorter sorter;
 
 
-        public MainPage(IWorkbook _nameWorkbook, IWorkbook _paperWorkbook,IWorkbook _logWorkbook, string _nameFile, string _paperFile, string _logFile)
+        public MainPage(StartPage _startPage, IWorkbook _nameWorkbook, IWorkbook _paperWorkbook,IWorkbook _logWorkbook, string _nameFile, string _paperFile, string _logFile)
         {
             this.nameFile = _nameFile;
             this.paperFile = _paperFile;
             this.logFile = _logFile;
+            this.startPage = _startPage;
             logWorkbook = _logWorkbook;
             paper = getPaper(_paperWorkbook);
             allStudents = getStudents(_nameWorkbook);
+            sorter = new mySorter();
+
             InitializeComponent();
         }
 
@@ -50,74 +61,152 @@ namespace ZES_Exam
         {
             right_btn.Enabled = false;
             wrong_btn.Enabled = false;
-            updateList();
+            sorter.SortColumn = 1;
+            //为ListViewItemSorter指定排序类
+            this.name_lv.ListViewItemSorter = sorter;
+            sorter.SortOrder = SortOrder.Descending;
+            updateListAndSettings();
         }
+
 
         private Paper getPaper(IWorkbook _paperWorkbook)
         {
             Paper _paper = new Paper();
             List<Question> allQuestions = new List<Question>();
             ISheet sheet = _paperWorkbook.GetSheetAt(0);  //获取第一个工作表  
-            if(sheet.GetRow(0)!= null)
+            try
             {
-                if (sheet.GetRow(0).GetCell(0) != null)
+                if (sheet.GetRow(0) != null)
                 {
-                    _paper.paperName = sheet.GetRow(0).GetCell(0).ToString().Trim();
+                    if (sheet.GetRow(0).GetCell(0) != null)
+                    {
+                        _paper.paperName = sheet.GetRow(0).GetCell(0).ToString().Trim();
+                    }
+                    else
+                    {
+                        MessageBox.Show("试卷格式错误：无试卷标题，请联系职教科");
+                    }
                 }
                 else
                 {
                     MessageBox.Show("试卷格式错误：无试卷标题，请联系职教科");
                 }
-            }
-            else
-            {
-                MessageBox.Show("试卷格式错误：无试卷标题，请联系职教科");
-            }
-            for (int i = 2; i <= sheet.LastRowNum; i++)
-            {
-                Question _question = new Question();
-                IRow row = sheet.GetRow(i);
-                _question.questionID = i -1;
-                string answers = "";
-                for(int j = 1; j <= row.LastCellNum; j++)
+                for (int i = 2; i <= sheet.LastRowNum; i++)
                 {
-                    if(j == 1)
+                    Question _question = new Question();
+                    IRow row = sheet.GetRow(i);
+                    _question.questionID = i - 1;
+                    string answers = "";
+                    for (int j = 2; j <= row.LastCellNum; j++)
                     {
-                        if (row.GetCell(0) != null)
+                        if (j == 2)
                         {
-                            _question.questionName = row.GetCell(0).ToString().Trim();
-                            if (row.GetCell(1) != null)
+                            if (row.GetCell(0) != null)
                             {
-                                _question.rightAnswer = row.GetCell(1).ToString().Trim();
+                                _question.questionCategory = row.GetCell(0).ToString().Replace("，", ",").Trim();
                             }
                             else
                             {
-                                _question.rightAnswer = "无";
+                                _question.questionCategory = "无类别";
+                            }
+                            if (row.GetCell(1) != null)
+                            {
+                                _question.questionName = row.GetCell(1).ToString().Trim();
+                                if (row.GetCell(2) != null)
+                                {
+                                    _question.rightAnswer = row.GetCell(2).ToString().Trim();
+                                }
+                                else
+                                {
+                                    _question.rightAnswer = "无";
+                                }
+                            }
+                            else
+                            {
+                                _question.questionName = "";
+                                continue;
                             }
                         }
                         else
                         {
-                            _question.questionName = "";
-                            continue;
+                            if (row.GetCell(j) != null)
+                            {
+                                answers = answers + row.GetCell(j).ToString().Trim() + "|";
+                            }
+                            else
+                            {
+                                answers = answers + "|";
+                            }
                         }
                     }
-                    else
+                    _question.answers = answers.Remove(answers.Length - 1, 1);
+                    allQuestions.Add(_question);
+                }
+                _paper.questions = allQuestions;
+                questionCategoryCheck(allQuestions);
+                return _paper;
+            }
+            catch (Exception e)
+            {
+                if (allQuestions.Count == 0)
+                {
+                    MessageBox.Show("题库格式不正确致使读取题库失败，请检查题库文件:\n" + paperFile, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    getAnyException = true;
+                }
+                else
+                {
+                    MessageBox.Show("题库格式不正确致使读取题库失败，下列为读取样本，请检查错误\n"
+                    + "题库文件：" + paperFile + "\n题目分类(表格第一列)：" + allQuestions[0].questionCategory + "\n题目名称(第二列)：" + allQuestions[0].questionName + "\n正确答案(第三列)：" + allQuestions[0].rightAnswer, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    getAnyException = true;
+                }
+            }
+            return _paper;
+        }
+
+        //找出所有的分类
+        private void questionCategoryCheck(List<Question> _questions)
+        {
+            List<QuestionCategory> _category = new List<QuestionCategory>();
+            foreach(Question q in _questions)
+            { 
+                if(q.questionCategory == null)
+                {
+                    continue;
+                }
+                for (int i = 0; i < q.questionCategory.Split(',').Length; i++)
+                {
+                    bool hasGotIt = false;
+                    foreach (QuestionCategory qc in _category)
                     {
-                        if(row.GetCell(j) != null)
+                        if (qc.categoryName.Equals(q.questionCategory.Split(',')[i]))
                         {
-                            answers = answers + row.GetCell(j).ToString().Trim() + "|";
+                            hasGotIt = true;
                         }
-                        else
+                        if (hasGotIt)
                         {
-                            answers = answers + "|";
+                            break;
                         }
+                    }
+                    if (!hasGotIt)
+                    {
+                        QuestionCategory _tempQC = new QuestionCategory();
+                        _tempQC.categoryName = q.questionCategory.Split(',')[i].ToString();
+                        _tempQC.chosen = true;
+                        _category.Add(_tempQC);
                     }
                 }
-                _question.answers = answers.Remove(answers.Length - 1, 1);
-                allQuestions.Add(_question);
             }
-            _paper.questions = allQuestions;
-            return _paper;
+            if(settingModel == null)
+            {
+                settingModel = new SettingModel();
+            }
+            settingModel.questionCategory = _category;
+            List<string> _tempCC = new List<string>();
+            foreach(QuestionCategory _qc in _category)
+            {
+                _tempCC.Add(_qc.categoryName);
+            }
+            allChosenCategories = _tempCC;
         }
 
         private List<Students> getStudents(IWorkbook _nameWorkbook)
@@ -125,93 +214,154 @@ namespace ZES_Exam
             List<Students> _students = new List<Students>();
             ISheet sheet = _nameWorkbook.GetSheetAt(0);  //获取第一个工作表  
             //标题
-            if (sheet.GetRow(0) != null)
+            try
             {
-                if (sheet.GetRow(0).GetCell(0) != null)
+                if (sheet.GetRow(0) != null)
                 {
-                    className = sheet.GetRow(0).GetCell(0).ToString().Trim();
-                }
-            }
-            //找到当前试卷所在的列（没有的新建）
-            if (sheet.GetRow(1)!= null)
-            {
-                int currentPaperColumn = -1;
-                IRow row = sheet.GetRow(1);
-                for (int j = 0; j <= row.LastCellNum; j++)
-                {
-                    if(row.GetCell(j)!= null)
+                    if (sheet.GetRow(0).GetCell(0) != null)
                     {
-                        if (row.GetCell(j).ToString().Trim().Equals(paper.paperName))
+                        className = sheet.GetRow(0).GetCell(0).ToString().Trim();
+                    }
+                }
+                //找到当前试卷所在的列（没有的新建）
+                if (sheet.GetRow(1) != null)
+                {
+                    int currentPaperColumn = -1;
+                    IRow row = sheet.GetRow(1);
+                    for (int j = 0; j <= row.LastCellNum; j++)
+                    {
+                        if (row.GetCell(j) != null)
                         {
-                            currentPaperColumn = j;
+                            if (row.GetCell(j).ToString().Trim().Equals(paper.paperName))
+                            {
+                                currentPaperColumn = j;
+                                break;
+                            }
+                        }
+                        if (currentPaperColumn != -1)
+                        {
                             break;
                         }
                     }
-                    if(currentPaperColumn != -1)
+                    if (currentPaperColumn == -1)
                     {
-                        break;
+                        row.CreateCell(row.LastCellNum + 1).SetCellValue(paper.paperName);
+                        currentPaperColumn = row.LastCellNum + 1;
                     }
-                }
-                if(currentPaperColumn == -1)
-                {
-                    row.CreateCell(row.LastCellNum + 1).SetCellValue(paper.paperName);
-                    currentPaperColumn = row.LastCellNum + 1;
-                }
-                gradeColumnOfNameFile = currentPaperColumn;
-            }
-            else
-            {
-                return null;
-            }
-            
-            for(int i = 2; i <= sheet.LastRowNum; i++)
-            {
-                IRow row;
-                if(sheet.GetRow(i)!= null)
-                {
-                    row = sheet.GetRow(i);
-                    Students _s = new Students();
-                    if(row.GetCell(0)!= null)
-                    {
-                        _s.name = row.GetCell(0).ToString().Trim();
-                    }
-                    if(row.GetCell(gradeColumnOfNameFile) != null)
-                    {
-                        _s.grade = row.GetCell(gradeColumnOfNameFile).ToString().Trim();
-                    }
-                    else
-                    {
-                        _s.grade = "";
-                    }
-                    _students.Add(_s);
+                    gradeColumnOfNameFile = currentPaperColumn;
                 }
                 else
                 {
-                    continue;
+                    return null;
+                }
+
+                for (int i = 2; i <= sheet.LastRowNum; i++)
+                {
+                    IRow row;
+                    if (sheet.GetRow(i) != null)
+                    {
+                        row = sheet.GetRow(i);
+                        Students _s = new Students();
+                        if (row.GetCell(0) != null)
+                        {
+                            _s.name = row.GetCell(0).ToString().Trim();
+                        }
+                        if (row.GetCell(gradeColumnOfNameFile) != null)
+                        {
+                            _s.grade = row.GetCell(gradeColumnOfNameFile).ToString().Trim();
+                        }
+                        else
+                        {
+                            _s.grade = "";
+                        }
+                        _students.Add(_s);
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                if (_students.Count == 0)
+                {
+                    MessageBox.Show("名单格式不正确致使读取名单失败，请检查名单文件:\n" + nameFile, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    getAnyException = true;
+                }
+                else
+                {
+                    MessageBox.Show("名单格式不正确致使读取名单失败，下列为读取样本，请检查错误\n"+
+                    "名单文件："+nameFile + "\n学生姓名(表格第一列)：" + _students[0].name + "\n当前试卷成绩：" + _students[0].grade , "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    getAnyException = true;
+                }
+            }  
             return _students;
         }
 
         private void roll_btn_Click(object sender, EventArgs e)
         {
-            if (!rolling)
+            if(settingModel.selectQuestionMode == 0)
             {
-                startRolling();
-                rolling = true;
-                roll_btn.Text = "结束";
+                if (!rolling)
+                {
+                    startRolling(0);
+                    rolling = true;
+                    roll_btn.Text = "结束";
+                }
+                else
+                {
+                    stopRolling();
+                    rolling = false;
+                    roll_btn.Text = "开始";
+                }
             }
             else
             {
-                stopRolling();
-                rolling = false;
-                roll_btn.Text = "开始";
+                startRolling(1);
             }
+         
         }
 
-        private void startRolling()
+        private void startRolling(int mode)
         {
-            rollingTimer.Start();
+            if(mode == 0)
+            {
+                rollingTimer.Start();
+            }
+            else
+            {
+                bool hasGotIt = false;
+                while (!hasGotIt)
+                {
+                    Random rd = new Random();
+                    questionID = rd.Next(0, paper.questions.Count);
+                    string[] questionCategories = paper.questions[questionID].questionCategory.Split(',');
+                    foreach (String _category in allChosenCategories)
+                    {//找到一个就算
+                        for (int i = 0; i < questionCategories.Length; i++)
+                        {
+                            if (_category.Equals(questionCategories[i]))
+                            {
+                                hasGotIt = true;
+                            }
+                            if (hasGotIt)
+                            {
+                                break;
+                            }
+                        }
+                        if (hasGotIt)
+                        {
+                            break;
+                        }
+                    }
+                }
+                question_lbl.Text = splitString(paper.questions[questionID].questionName, 25);
+                if (splitedScreenPage != null)
+                {
+                    splitedScreenPage.question_lbl.Text = splitString(paper.questions[questionID].questionName, 25);
+                }
+            }
             answer_lbl.Text = "";
             showOrHideAnswer = false;
             showRightAnswer_btn.Text = "显示答案";
@@ -219,6 +369,11 @@ namespace ZES_Exam
             if (splitedScreenPage != null)
             {
                 splitedScreenPage.answer_lbl.Text = "";
+            }
+            if(mode == 1)
+            {
+                stopRolling();
+                roll_btn.Text = "抽题";
             }
             
         }
@@ -310,17 +465,60 @@ namespace ZES_Exam
             }
         }
 
-        private void updateList()
+        public void updateListAndSettings()
         {
             name_lv.Items.Clear();
             name_lv.BeginUpdate();
+            updateChosenCategories();
             foreach (Students _s in allStudents)
             {
                 ListViewItem _lvi = new ListViewItem(_s.name);
-                _lvi.SubItems.Add(_s.grade);
+                if (!settingModel.rankModeEnabled)
+                {
+                    _lvi.SubItems.Add(_s.grade);
+                }
+                else
+                {//比较乱…懒得改了
+                    if (settingModel.hasNewOriginalScore || settingModel.clearData)
+                    {
+                        _lvi.SubItems.Add(settingModel.originalScore.ToString());
+                        initOriginalScore();
+                    }
+                    else
+                    {
+                        _lvi.SubItems.Add(_s.rankGrade.ToString());
+                    }
+                }
                 name_lv.Items.Add(_lvi);
             }
+            if (settingModel.rankModeEnabled)
+            {
+                name_lv.Sort();
+            }
             name_lv.EndUpdate();
+        }
+
+        private void initOriginalScore()
+        {
+            foreach(Students _s in allStudents)
+            {
+                _s.rankGrade = settingModel.originalScore;
+            }
+            settingModel.hasNewOriginalScore = false;
+            settingModel.clearData = false;
+        }
+
+        private void updateChosenCategories()
+        {
+            List<string> tempCC = new List<string>();
+            foreach(QuestionCategory _qc in settingModel.questionCategory)
+            {
+                if(_qc.chosen)
+                {
+                    tempCC.Add(_qc.categoryName);
+                }
+            }
+            allChosenCategories = tempCC;
         }
 
         private void selectStudent_btn_Click(object sender, EventArgs e)
@@ -333,8 +531,31 @@ namespace ZES_Exam
 
         private void rollingTimer_Tick(object sender, EventArgs e)
         {
-            Random rd = new Random();
-            questionID = rd.Next(0, paper.questions.Count);
+            bool hasGotIt = false;
+            while (!hasGotIt)
+            {
+                Random rd = new Random();
+                questionID = rd.Next(0, paper.questions.Count);
+                string[] questionCategories = paper.questions[questionID].questionCategory.Split(',');
+                foreach (String _category in allChosenCategories)
+                {//找到一个就算
+                    for (int i = 0; i < questionCategories.Length; i++)
+                    {
+                        if (_category.Equals(questionCategories[i]))
+                        {
+                            hasGotIt = true;
+                        }
+                        if (hasGotIt)
+                        {
+                            break;
+                        }
+                    }
+                    if (hasGotIt)
+                    {
+                        break;
+                    }
+                }
+            }
             question_lbl.Text = splitString(paper.questions[questionID].questionName, 25);
             if (splitedScreenPage != null)
             {
@@ -362,6 +583,11 @@ namespace ZES_Exam
 
         private void studentTimer_Tick(object sender, EventArgs e)
         {
+            if(allStudents.Count == 0)
+            {
+                studentTimer.Stop();
+                return;
+            }
             Random rd = new Random();
             studentName_lbl.Text = allStudents[rd.Next(0, allStudents.Count)].name;
             count++;
@@ -381,7 +607,7 @@ namespace ZES_Exam
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            DialogResult result = MessageBox.Show("是否确认关闭？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult result = MessageBox.Show("是否确认关闭？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             e.Cancel = result != DialogResult.Yes;
             if (result == DialogResult.Yes)
             {
@@ -523,20 +749,76 @@ namespace ZES_Exam
 
         private void right_btn_Click(object sender, EventArgs e)
         {
-            allStudents[studentID].grade = allStudents[studentID].grade + "√";
-            right_lbl.Visible = true;
-            logTestData(true);
-            rightTimer.Start();
-            updateList();
+            if(questionID < 0)
+            {
+                right_lbl.Visible = true;
+                right_lbl.Text = "没有题目";
+                rightTimer.Start();
+                return;
+            }
+            else
+            {
+                if (settingModel.rankModeEnabled)
+                {
+                    right_lbl.Text = "+"+settingModel.singleQuestionScore.ToString() + "分";
+                    allStudents[studentID].rankGrade = allStudents[studentID].rankGrade + settingModel.singleQuestionScore;
+                    right_lbl.Visible = true;
+                    logTestData(true);
+                    rightTimer.Start();
+                    updateListAndSettings();
+                }
+                else
+                {
+                    right_lbl.Text = "提交成功";
+                    allStudents[studentID].grade = allStudents[studentID].grade + "√";
+                    right_lbl.Visible = true;
+                    logTestData(true);
+                    rightTimer.Start();
+                    updateListAndSettings();
+                }
+
+            }
+
         }
 
         private void wrong_btn_Click(object sender, EventArgs e)
         {
-            wrongTimer.Start();
-            wrong_lbl.Visible = true;
-            logTestData(false);
-            allStudents[studentID].grade = allStudents[studentID].grade + "×";
-            updateList();
+            if (questionID < 0)
+            {
+                wrong_lbl.Visible = true;
+                wrong_lbl.Text = "没有题目";
+                wrongTimer.Start();
+                return;
+            }
+            else
+            {
+                if (settingModel.rankModeEnabled)
+                {
+                    if (settingModel.scoreNoDeduction)
+                    {//答错不扣分
+                        wrong_lbl.Text = "提交成功";
+                    }
+                    else
+                    {
+                        wrong_lbl.Text = "-" + settingModel.singleQuestionScore.ToString() + "分";
+                        allStudents[studentID].rankGrade = allStudents[studentID].rankGrade - settingModel.singleQuestionScore;
+                    }
+                    wrong_lbl.Visible = true;
+                    logTestData(false);
+                    wrongTimer.Start();
+                    updateListAndSettings();
+                }
+                else
+                {
+                    wrong_lbl.Text = "提交成功";
+                    wrongTimer.Start();
+                    wrong_lbl.Visible = true;
+                    logTestData(false);
+                    allStudents[studentID].grade = allStudents[studentID].grade + "×";
+                    updateListAndSettings();
+                }
+            }
+
         }
 
         private void splitScreen_btn_Click(object sender, EventArgs e)
@@ -720,7 +1002,18 @@ namespace ZES_Exam
             if(name_lv.SelectedItems.Count != 0)
             {
                 studentName_lbl.Text = name_lv.SelectedItems[0].SubItems[0].Text.ToString();
-                studentID = name_lv.SelectedItems[0].Index;
+                studentID = -1;
+                for(int i = 0;i < allStudents.Count; i++)
+                {
+                    if (allStudents[i].name.Equals(studentName_lbl.Text.ToString().Trim()))
+                    {
+                        studentID = i;
+                    }
+                }
+                if(studentID == -1)
+                {
+                    int ij = 0;
+                }
                 right_btn.Enabled = true;
                 wrong_btn.Enabled = true;
             }
@@ -776,13 +1069,52 @@ namespace ZES_Exam
         {
             if (rankMode_cb.Checked)
             {//进入
-                RankSettings _dialog = new RankSettings();
-                _dialog.Show();
+                if (!firstTimeChecked)
+                {
+                    if (settingModel == null)
+                    {
+                        settingModel = new SettingModel();
+                    }
+                    firstTimeChecked = true;
+                    settingModel.rankModeEnabled = true;
+                    Settings _dialog = new Settings(settingModel, this);
+                    _dialog.Show();
+                }
+                else
+                {
+                    settingModel.rankModeEnabled = true;
+                }
             }
             else
             {//退出
-                
+                settingModel.rankModeEnabled = false;
             }
+            updateListAndSettings();
+        }
+
+        private void back_btn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("是否确定返回选择/答题界面？\n答题信息将会自动保存", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                save();
+                this.Hide();
+                startPage.Show();
+            }
+        }
+
+        private void setting_btn_Click(object sender, EventArgs e)
+        {
+            if (!firstTimeChecked)
+            {
+                firstTimeChecked = true;
+            }
+            if (settingModel == null)
+            {
+                settingModel = new SettingModel();
+            }
+            Settings _dialog = new Settings(settingModel,this);
+            _dialog.Show();
         }
     }
 }

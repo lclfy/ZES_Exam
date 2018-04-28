@@ -18,11 +18,13 @@ namespace ZES_Exam
         List<FileInfo> nameFile = new List<FileInfo>();
         List<FileInfo> paperFile = new List<FileInfo>();
         List<FileInfo> logFile = new List<FileInfo>();
+        public static StartPage thisPage = null;
         string logFileName = "";
         IWorkbook logWorkBook;
         public StartPage()
         {
             InitializeComponent();
+            thisPage = this;
         }
 
         private void StartPage_Load(object sender, EventArgs e)
@@ -284,9 +286,12 @@ namespace ZES_Exam
             if(nameWorkbook != null &&
                 paperWorkbook != null)
             {
-                MainPage page = new MainPage(nameWorkbook,paperWorkbook, logWorkBook, nameFile[nameComboBox.SelectedIndex].FullName, paperFile[examPaperComboBox.SelectedIndex].FullName, logFileName);
-                page.Show();
-                this.Hide();
+                MainPage page = new MainPage(thisPage,nameWorkbook,paperWorkbook, logWorkBook, nameFile[nameComboBox.SelectedIndex].FullName, paperFile[examPaperComboBox.SelectedIndex].FullName, logFileName);
+                if (!page.getAnyException)
+                {
+                    page.Show();
+                    this.Hide();
+                }
             }
             else
             {
