@@ -696,7 +696,7 @@ namespace ZES_Exam
                         if (settingModel.rankModeEnabled)
                         {//保存计分分数
                             //如果有之前的行，就保存到之前的行里面去
-                            if(rankScoreColumn == -1)
+                            if(rankScoreColumn < 1)
                             {
                                 row.CreateCell(scoreCell).SetCellValue("计分," + paper.paperName + "," + DateTime.Now.ToString("yyMMdd-hh:mm"));
                             }
@@ -810,6 +810,7 @@ namespace ZES_Exam
                 settingModel.nameFile = nameFile;
                 settingModel.testFile = paperFile;
                 Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
                 if(config.AppSettings.Settings["originalScore"] == null)
                 {
                     KeyValueConfigurationElement _k = new KeyValueConfigurationElement("originalScore", settingModel.originalScore.ToString());
@@ -1224,6 +1225,7 @@ namespace ZES_Exam
                     firstTimeChecked = true;
                     settingModel.rankModeEnabled = true;
                     settingModel.haveRankModeData = true;
+                    settingModel.hasNewOriginalScore = true;
                     Settings _dialog = new Settings(settingModel, this);
                     _dialog.Show();
                 }

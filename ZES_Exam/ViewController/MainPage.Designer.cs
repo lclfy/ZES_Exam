@@ -54,6 +54,8 @@
             this.name_lv = new System.Windows.Forms.ListView();
             this._name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._score = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.timer_lbl = new CCWin.SkinControl.SkinLabel();
+            this.timerText_lbl = new CCWin.SkinControl.SkinLabel();
             this.title_gb.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.skinGroupBox1.SuspendLayout();
@@ -414,6 +416,31 @@
             this._score.Text = "成绩";
             this._score.Width = 70;
             // 
+            // timer_lbl
+            // 
+            this.timer_lbl.AutoSize = true;
+            this.timer_lbl.BackColor = System.Drawing.Color.Transparent;
+            this.timer_lbl.BorderColor = System.Drawing.Color.White;
+            this.timer_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.timer_lbl.ForeColor = System.Drawing.Color.Crimson;
+            this.timer_lbl.Location = new System.Drawing.Point(85, 617);
+            this.timer_lbl.Name = "timer_lbl";
+            this.timer_lbl.Size = new System.Drawing.Size(76, 31);
+            this.timer_lbl.TabIndex = 17;
+            this.timer_lbl.Text = "00:30";
+            // 
+            // timerText_lbl
+            // 
+            this.timerText_lbl.AutoSize = true;
+            this.timerText_lbl.BackColor = System.Drawing.Color.Transparent;
+            this.timerText_lbl.BorderColor = System.Drawing.Color.White;
+            this.timerText_lbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.timerText_lbl.Location = new System.Drawing.Point(101, 660);
+            this.timerText_lbl.Name = "timerText_lbl";
+            this.timerText_lbl.Size = new System.Drawing.Size(44, 17);
+            this.timerText_lbl.TabIndex = 18;
+            this.timerText_lbl.Text = "计时器";
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -422,6 +449,8 @@
             this.BackLayout = false;
             this.BorderColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1024, 700);
+            this.Controls.Add(this.timerText_lbl);
+            this.Controls.Add(this.timer_lbl);
             this.Controls.Add(this.name_lv);
             this.Controls.Add(this.back_btn);
             this.Controls.Add(this.setting_btn);
@@ -445,6 +474,7 @@
             this.skinGroupBox2.ResumeLayout(false);
             this.skinGroupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -474,5 +504,7 @@
         private System.Windows.Forms.ColumnHeader _name;
         private System.Windows.Forms.ColumnHeader _score;
         public System.Windows.Forms.ListView name_lv;
+        private CCWin.SkinControl.SkinLabel timer_lbl;
+        private CCWin.SkinControl.SkinLabel timerText_lbl;
     }
 }

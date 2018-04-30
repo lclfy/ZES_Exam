@@ -109,6 +109,7 @@ namespace ZES_Exam
         public SettingModel getSettings()
         {
             SettingModel _settingModel = new SettingModel();
+
             int originalScore = 0;
             int.TryParse(ConfigurationManager.AppSettings["originalScore"], out originalScore);
             _settingModel.originalScore = originalScore;
