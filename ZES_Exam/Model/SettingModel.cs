@@ -8,12 +8,15 @@ namespace ZES_Exam.Model
     {
         public bool rankModeEnabled { get; set; }
         public int originalScore { get; set; }
-        public bool hasNewOriginalScore { get; set; }
         public int singleQuestionScore { get; set; }
         //错了是否扣分
         public bool scoreNoDeduction { get; set; }
-        //计分清零
+        //计分清零（不保存）
         public bool clearData { get; set; }
+        //有新的初始分数（不保存）
+        public bool hasNewOriginalScore { get; set; }
+        //进入过计分模式（不保存）
+        public bool haveRankModeData { get; set; }
         public int countingTime { get; set; }
         public int selectQuestionMode { get; set; }
         public List<QuestionCategory> questionCategory { get; set; }

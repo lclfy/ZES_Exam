@@ -31,12 +31,14 @@
             this.name_lv = new CCWin.SkinControl.SkinListView();
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.title_lb = new CCWin.SkinControl.SkinLabel();
+            this.score = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // name_lv
             // 
             this.name_lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.name});
+            this.name,
+            this.score});
             this.name_lv.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.name_lv.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.name_lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -54,7 +56,7 @@
             // name
             // 
             this.name.Text = "姓名";
-            this.name.Width = 300;
+            this.name.Width = 150;
             // 
             // title_lb
             // 
@@ -70,6 +72,11 @@
             this.title_lb.Text = "班组名";
             this.title_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.title_lb.Click += new System.EventHandler(this.title_lb_Click);
+            // 
+            // score
+            // 
+            this.score.Text = "分数";
+            this.score.Width = 150;
             // 
             // StudentListCheck
             // 
@@ -92,5 +99,6 @@
         private CCWin.SkinControl.SkinListView name_lv;
         private CCWin.SkinControl.SkinLabel title_lb;
         private System.Windows.Forms.ColumnHeader name;
+        private System.Windows.Forms.ColumnHeader score;
     }
 }

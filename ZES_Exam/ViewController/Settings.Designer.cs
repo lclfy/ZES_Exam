@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
+            this.clear_btn = new CCWin.SkinControl.SkinButton();
             this.label4 = new System.Windows.Forms.Label();
             this.startCountingScore_ckb = new CCWin.SkinControl.SkinCheckBox();
             this.skinLabel8 = new CCWin.SkinControl.SkinLabel();
@@ -53,7 +54,6 @@
             this.checkAll_btn = new CCWin.SkinControl.SkinButton();
             this.skinLabel6 = new CCWin.SkinControl.SkinLabel();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
-            this.clear_btn = new CCWin.SkinControl.SkinButton();
             this.skinGroupBox1.SuspendLayout();
             this.skinGroupBox2.SuspendLayout();
             this.skinGroupBox3.SuspendLayout();
@@ -94,6 +94,25 @@
             this.skinGroupBox1.TitleRectBackColor = System.Drawing.Color.Crimson;
             this.skinGroupBox1.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.skinGroupBox1.Enter += new System.EventHandler(this.skinGroupBox1_Enter);
+            // 
+            // clear_btn
+            // 
+            this.clear_btn.BackColor = System.Drawing.Color.Transparent;
+            this.clear_btn.BaseColor = System.Drawing.Color.Crimson;
+            this.clear_btn.BorderColor = System.Drawing.Color.Crimson;
+            this.clear_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.clear_btn.DownBack = null;
+            this.clear_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.clear_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.clear_btn.Location = new System.Drawing.Point(92, 247);
+            this.clear_btn.MouseBack = null;
+            this.clear_btn.Name = "clear_btn";
+            this.clear_btn.NormlBack = null;
+            this.clear_btn.Size = new System.Drawing.Size(108, 30);
+            this.clear_btn.TabIndex = 26;
+            this.clear_btn.Text = "计分清零";
+            this.clear_btn.UseVisualStyleBackColor = false;
+            this.clear_btn.Click += new System.EventHandler(this.skinButton1_Click);
             // 
             // label4
             // 
@@ -447,25 +466,6 @@
             this.skinLabel7.Size = new System.Drawing.Size(42, 21);
             this.skinLabel7.TabIndex = 24;
             this.skinLabel7.Text = "设置";
-            // 
-            // clear_btn
-            // 
-            this.clear_btn.BackColor = System.Drawing.Color.Transparent;
-            this.clear_btn.BaseColor = System.Drawing.Color.OrangeRed;
-            this.clear_btn.BorderColor = System.Drawing.Color.OrangeRed;
-            this.clear_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.clear_btn.DownBack = null;
-            this.clear_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.clear_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.clear_btn.Location = new System.Drawing.Point(92, 247);
-            this.clear_btn.MouseBack = null;
-            this.clear_btn.Name = "clear_btn";
-            this.clear_btn.NormlBack = null;
-            this.clear_btn.Size = new System.Drawing.Size(108, 30);
-            this.clear_btn.TabIndex = 26;
-            this.clear_btn.Text = "计分清零";
-            this.clear_btn.UseVisualStyleBackColor = false;
-            this.clear_btn.Click += new System.EventHandler(this.skinButton1_Click);
             // 
             // Settings
             // 

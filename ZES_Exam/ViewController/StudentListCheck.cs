@@ -16,8 +16,11 @@ namespace ZES_Exam
     {
         List<Students> students = new List<Students>();
         string title = "";
-        public StudentListCheck(IWorkbook _nameWorkbook)
+        int scoreColumn;
+
+        public StudentListCheck(IWorkbook _nameWorkbook, int _scoreColumn = -1)
         {
+            scoreColumn = _scoreColumn;
             students = getStudents(_nameWorkbook);
             InitializeComponent();
         }
@@ -45,9 +48,11 @@ namespace ZES_Exam
                     {
                         _s.name = row.GetCell(0).ToString().Trim();
                     }
-                    else
+                    if(scoreColumn > -1)
                     {
-                        _s.grade = "0";
+                        int outPut = 0;
+                        int.TryParse(row.GetCell(scoreColumn).ToString(), out outPut);
+                        _s.rankGrade = outPut;
                     }
                     _students.Add(_s);
                 }
@@ -66,6 +71,10 @@ namespace ZES_Exam
             foreach (Students _s in students)
             {
                 ListViewItem _lvi = new ListViewItem(_s.name);
+                if(scoreColumn != -1)
+                {
+                    _lvi.SubItems.Add(_s.rankGrade.ToString()+"分");
+                }
                 name_lv.Items.Add(_lvi);
             }
             name_lv.EndUpdate();

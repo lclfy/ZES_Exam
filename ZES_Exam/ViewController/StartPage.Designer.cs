@@ -37,6 +37,11 @@
             this.startButton = new CCWin.SkinControl.SkinButton();
             this.checkName_btn = new System.Windows.Forms.Label();
             this.skinLabel4 = new CCWin.SkinControl.SkinLabel();
+            this.selectScore_btn = new System.Windows.Forms.Label();
+            this.selectSavedScore_lv = new System.Windows.Forms.ListView();
+            this.skinLabel5 = new CCWin.SkinControl.SkinLabel();
+            this.title = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // skinLabel1
@@ -130,7 +135,7 @@
             this.checkName_btn.AutoSize = true;
             this.checkName_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.checkName_btn.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.checkName_btn.Location = new System.Drawing.Point(211, 286);
+            this.checkName_btn.Location = new System.Drawing.Point(145, 287);
             this.checkName_btn.Name = "checkName_btn";
             this.checkName_btn.Size = new System.Drawing.Size(65, 20);
             this.checkName_btn.TabIndex = 9;
@@ -149,6 +154,59 @@
             this.skinLabel4.TabIndex = 10;
             this.skinLabel4.Text = "请使用2003版Excel文件（.xls）";
             // 
+            // selectScore_btn
+            // 
+            this.selectScore_btn.AutoSize = true;
+            this.selectScore_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.selectScore_btn.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.selectScore_btn.Location = new System.Drawing.Point(267, 287);
+            this.selectScore_btn.Name = "selectScore_btn";
+            this.selectScore_btn.Size = new System.Drawing.Size(85, 20);
+            this.selectScore_btn.TabIndex = 11;
+            this.selectScore_btn.Text = "计分记录>>";
+            this.selectScore_btn.Click += new System.EventHandler(this.selectScore_btn_Click);
+            // 
+            // selectSavedScore_lv
+            // 
+            this.selectSavedScore_lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.title,
+            this.time});
+            this.selectSavedScore_lv.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.selectSavedScore_lv.FullRowSelect = true;
+            this.selectSavedScore_lv.Location = new System.Drawing.Point(463, 121);
+            this.selectSavedScore_lv.MultiSelect = false;
+            this.selectSavedScore_lv.Name = "selectSavedScore_lv";
+            this.selectSavedScore_lv.Size = new System.Drawing.Size(180, 155);
+            this.selectSavedScore_lv.TabIndex = 12;
+            this.selectSavedScore_lv.UseCompatibleStateImageBehavior = false;
+            this.selectSavedScore_lv.View = System.Windows.Forms.View.Details;
+            this.selectSavedScore_lv.Visible = false;
+            this.selectSavedScore_lv.SelectedIndexChanged += new System.EventHandler(this.selectSavedScore_lv_SelectedIndexChanged);
+            this.selectSavedScore_lv.DoubleClick += new System.EventHandler(this.selectSavedScore_lv_DoubleClick);
+            // 
+            // skinLabel5
+            // 
+            this.skinLabel5.AutoSize = true;
+            this.skinLabel5.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel5.BorderColor = System.Drawing.Color.White;
+            this.skinLabel5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.skinLabel5.Location = new System.Drawing.Point(457, 290);
+            this.skinLabel5.Name = "skinLabel5";
+            this.skinLabel5.Size = new System.Drawing.Size(191, 17);
+            this.skinLabel5.TabIndex = 13;
+            this.skinLabel5.Text = "选择想要继续的计分,双击查看详情";
+            this.skinLabel5.Visible = false;
+            // 
+            // title
+            // 
+            this.title.Text = "试卷标题";
+            this.title.Width = 90;
+            // 
+            // time
+            // 
+            this.time.Text = "保存时间";
+            this.time.Width = 90;
+            // 
             // StartPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -157,7 +215,10 @@
             this.BorderColor = System.Drawing.Color.White;
             this.CaptionBackColorBottom = System.Drawing.Color.White;
             this.CaptionBackColorTop = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(489, 320);
+            this.ClientSize = new System.Drawing.Size(489, 340);
+            this.Controls.Add(this.skinLabel5);
+            this.Controls.Add(this.selectSavedScore_lv);
+            this.Controls.Add(this.selectScore_btn);
             this.Controls.Add(this.skinLabel4);
             this.Controls.Add(this.checkName_btn);
             this.Controls.Add(this.startButton);
@@ -168,8 +229,8 @@
             this.Controls.Add(this.skinLabel1);
             this.EffectBack = System.Drawing.Color.Transparent;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximumSize = new System.Drawing.Size(489, 320);
-            this.MinimumSize = new System.Drawing.Size(489, 320);
+            this.MaximumSize = new System.Drawing.Size(700, 340);
+            this.MinimumSize = new System.Drawing.Size(489, 340);
             this.Name = "StartPage";
             this.Text = "Form1";
             this.TitleColor = System.Drawing.Color.Transparent;
@@ -189,6 +250,11 @@
         private CCWin.SkinControl.SkinButton startButton;
         private System.Windows.Forms.Label checkName_btn;
         private CCWin.SkinControl.SkinLabel skinLabel4;
+        private System.Windows.Forms.Label selectScore_btn;
+        private CCWin.SkinControl.SkinLabel skinLabel5;
+        private System.Windows.Forms.ColumnHeader title;
+        private System.Windows.Forms.ColumnHeader time;
+        public System.Windows.Forms.ListView selectSavedScore_lv;
     }
 }
 

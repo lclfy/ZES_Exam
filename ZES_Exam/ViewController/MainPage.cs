@@ -12,6 +12,7 @@ using NPOI.HSSF.UserModel;
 using System.IO;
 using ZES_Exam.ViewController;
 using ZES_Exam.Model;
+using System.Configuration;
 
 namespace ZES_Exam
 {
@@ -30,6 +31,7 @@ namespace ZES_Exam
         bool rolling = false;
         int questionID = -1;
         int studentID = -1;
+        int rankScoreColumn;
         int count = 0;
         string className = "";
         public bool onlyOneAnswer = false;
@@ -43,12 +45,14 @@ namespace ZES_Exam
         private mySorter sorter;
 
 
-        public MainPage(StartPage _startPage, IWorkbook _nameWorkbook, IWorkbook _paperWorkbook,IWorkbook _logWorkbook, string _nameFile, string _paperFile, string _logFile)
+        public MainPage(StartPage _startPage, IWorkbook _nameWorkbook, IWorkbook _paperWorkbook,IWorkbook _logWorkbook,SettingModel _settingModel, string _nameFile, string _paperFile, string _logFile, int _rankScoreColumn = -1)
         {
             this.nameFile = _nameFile;
             this.paperFile = _paperFile;
             this.logFile = _logFile;
             this.startPage = _startPage;
+            settingModel = _settingModel;
+            rankScoreColumn = _rankScoreColumn;
             logWorkbook = _logWorkbook;
             paper = getPaper(_paperWorkbook);
             allStudents = getStudents(_nameWorkbook);
@@ -66,6 +70,10 @@ namespace ZES_Exam
             this.name_lv.ListViewItemSorter = sorter;
             sorter.SortOrder = SortOrder.Descending;
             updateListAndSettings();
+            if (firstTimeChecked)
+            {
+                rankMode_cb.Checked = true;
+            }
         }
 
 
@@ -274,6 +282,18 @@ namespace ZES_Exam
                         {
                             _s.grade = "";
                         }
+                        //导入之前记录的分数
+                        if(rankScoreColumn > 0)
+                        {
+                            if(row.GetCell(rankScoreColumn) == null)
+                            {
+                                row.CreateCell(rankScoreColumn).SetCellValue("0");
+                            }
+                            int outPut = 0;
+                            int.TryParse(row.GetCell(rankScoreColumn).ToString(), out outPut);
+                            _s.rankGrade = outPut;
+                            firstTimeChecked = true;
+                        }
                         _students.Add(_s);
                     }
                     else
@@ -470,6 +490,13 @@ namespace ZES_Exam
             name_lv.Items.Clear();
             name_lv.BeginUpdate();
             updateChosenCategories();
+            if(settingModel.selectQuestionMode == 0)
+            {
+                roll_btn.Text = "开始";
+            }else if(settingModel.selectQuestionMode == 1)
+            {
+                roll_btn.Text = "抽题";
+            }
             foreach (Students _s in allStudents)
             {
                 ListViewItem _lvi = new ListViewItem(_s.name);
@@ -607,7 +634,15 @@ namespace ZES_Exam
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            DialogResult result = MessageBox.Show("是否确认关闭？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result;
+            if (settingModel.haveRankModeData && !settingModel.rankModeEnabled)
+            {//有过计分数据但是不在计分模式
+                result = MessageBox.Show("是否确认关闭？检测到有未保存的计分数据，如果要保存计分数据，请勾选“计分模式”后退出。", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            }
+            else
+            {
+                result = MessageBox.Show("是否确认关闭？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            }
             e.Cancel = result != DialogResult.Yes;
             if (result == DialogResult.Yes)
             {
@@ -647,14 +682,28 @@ namespace ZES_Exam
                     }
                 }
                 ISheet sheet1 = workbook.GetSheetAt(0);
-                for(int i = 1; i <= sheet1.LastRowNum; i++)
+                int scoreCell = 0;
+                for (int i = 1; i <= sheet1.LastRowNum; i++)
                 {
                     IRow row = sheet1.GetRow(i);
-                    if(i == 1)
+                    if (i == 1)
                     {
+                        scoreCell = row.LastCellNum + 1;
                         if (row.GetCell(gradeColumnOfNameFile) == null)
                         {
                             row.CreateCell(gradeColumnOfNameFile).SetCellValue(paper.paperName);
+                        }
+                        if (settingModel.rankModeEnabled)
+                        {//保存计分分数
+                            //如果有之前的行，就保存到之前的行里面去
+                            if(rankScoreColumn == -1)
+                            {
+                                row.CreateCell(scoreCell).SetCellValue("计分," + paper.paperName + "," + DateTime.Now.ToString("yyMMdd-hh:mm"));
+                            }
+                            else
+                            {
+                                scoreCell = rankScoreColumn;
+                            }
                         }
                     }
                     else
@@ -666,6 +715,17 @@ namespace ZES_Exam
                         else
                         {
                             row.GetCell(gradeColumnOfNameFile).SetCellValue(allStudents[i - 2].grade);
+                        }
+                        if (settingModel.rankModeEnabled)
+                        {
+                            if(row.GetCell(scoreCell) == null)
+                            {
+                                row.CreateCell(scoreCell).SetCellValue(allStudents[i - 2].rankGrade);
+                            }
+                            else
+                            {
+                                row.GetCell(scoreCell).SetCellValue(allStudents[i - 2].rankGrade);
+                            }
                         }
                     }
                 }
@@ -742,6 +802,92 @@ namespace ZES_Exam
             }catch(Exception e)
             {
                 MessageBox.Show(e.ToString().Split('。')[1]);
+            }
+
+            //保存设置
+            if(settingModel != null)
+            {
+                settingModel.nameFile = nameFile;
+                settingModel.testFile = paperFile;
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                if(config.AppSettings.Settings["originalScore"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("originalScore", settingModel.originalScore.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["originalScore"].Value = settingModel.originalScore.ToString();
+                }
+
+                if (config.AppSettings.Settings["singleQuestionScore"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("singleQuestionScore", settingModel.singleQuestionScore.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["singleQuestionScore"].Value = settingModel.singleQuestionScore.ToString();
+                }
+
+                if (config.AppSettings.Settings["scoreNoDeduction"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("scoreNoDeduction", settingModel.scoreNoDeduction.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["scoreNoDeduction"].Value = settingModel.scoreNoDeduction.ToString();
+                }
+
+                if (config.AppSettings.Settings["countingTime"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("countingTime", settingModel.countingTime.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["countingTime"].Value = settingModel.countingTime.ToString();
+                }
+
+                if (config.AppSettings.Settings["selectQuestionMode"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("selectQuestionMode", settingModel.selectQuestionMode.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["selectQuestionMode"].Value = settingModel.selectQuestionMode.ToString();
+                }
+
+                if (config.AppSettings.Settings["nameFile"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("nameFile", settingModel.nameFile.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["nameFile"].Value = settingModel.nameFile.ToString();
+                }
+
+                if (config.AppSettings.Settings["testFile"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("testFile", settingModel.testFile.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["testFile"].Value = settingModel.testFile.ToString();
+                }
+
+                config.Save();
+                ConfigurationManager.RefreshSection("originalScore");
+                ConfigurationManager.RefreshSection("singleQuestionScore");
+                ConfigurationManager.RefreshSection("scoreNoDeduction");
+                ConfigurationManager.RefreshSection("countingTime");
+                ConfigurationManager.RefreshSection("selectQuestionMode");
+                ConfigurationManager.RefreshSection("nameFile");
+                ConfigurationManager.RefreshSection("testFile");
             }
 
 
@@ -1077,11 +1223,13 @@ namespace ZES_Exam
                     }
                     firstTimeChecked = true;
                     settingModel.rankModeEnabled = true;
+                    settingModel.haveRankModeData = true;
                     Settings _dialog = new Settings(settingModel, this);
                     _dialog.Show();
                 }
                 else
                 {
+                    settingModel.haveRankModeData = true;
                     settingModel.rankModeEnabled = true;
                 }
             }
