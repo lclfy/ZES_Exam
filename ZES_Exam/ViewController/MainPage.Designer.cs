@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.question_lbl = new CCWin.SkinControl.SkinLabel();
-            this.answer_lbl = new CCWin.SkinControl.SkinLabel();
             this.roll_btn = new CCWin.SkinControl.SkinButton();
             this.studentName_lbl = new CCWin.SkinControl.SkinLabel();
             this.selectStudent_btn = new CCWin.SkinControl.SkinButton();
@@ -41,7 +40,6 @@
             this.splitScreen_btn = new CCWin.SkinControl.SkinButton();
             this.showRightAnswer_btn = new CCWin.SkinControl.SkinButton();
             this.title_gb = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.wrong_lbl = new CCWin.SkinControl.SkinLabel();
             this.right_lbl = new CCWin.SkinControl.SkinLabel();
@@ -56,10 +54,14 @@
             this._score = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timer_lbl = new CCWin.SkinControl.SkinLabel();
             this.timerText_lbl = new CCWin.SkinControl.SkinLabel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.showAllQuestions_btn = new CCWin.SkinControl.SkinButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.answer_lbl = new CCWin.SkinControl.SkinLabel();
             this.title_gb.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.skinGroupBox1.SuspendLayout();
             this.skinGroupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // question_lbl
@@ -67,7 +69,7 @@
             this.question_lbl.BackColor = System.Drawing.Color.Transparent;
             this.question_lbl.BorderColor = System.Drawing.Color.White;
             this.question_lbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.question_lbl.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.question_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.question_lbl.ForeColor = System.Drawing.SystemColors.Highlight;
             this.question_lbl.Location = new System.Drawing.Point(3, 17);
             this.question_lbl.MaximumSize = new System.Drawing.Size(720, 250);
@@ -78,22 +80,6 @@
             this.question_lbl.Text = "题目";
             this.question_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.question_lbl.Click += new System.EventHandler(this.question_lbl_Click);
-            // 
-            // answer_lbl
-            // 
-            this.answer_lbl.BackColor = System.Drawing.Color.Transparent;
-            this.answer_lbl.BorderColor = System.Drawing.Color.White;
-            this.answer_lbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.answer_lbl.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.answer_lbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.answer_lbl.Location = new System.Drawing.Point(3, 17);
-            this.answer_lbl.MaximumSize = new System.Drawing.Size(720, 250);
-            this.answer_lbl.MinimumSize = new System.Drawing.Size(720, 250);
-            this.answer_lbl.Name = "answer_lbl";
-            this.answer_lbl.Size = new System.Drawing.Size(720, 250);
-            this.answer_lbl.TabIndex = 1;
-            this.answer_lbl.Text = "Answers";
-            this.answer_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // roll_btn
             // 
@@ -237,15 +223,6 @@
             this.title_gb.Size = new System.Drawing.Size(720, 250);
             this.title_gb.TabIndex = 9;
             this.title_gb.TabStop = false;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.answer_lbl);
-            this.groupBox1.Location = new System.Drawing.Point(58, 339);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(720, 250);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
             // 
             // skinGroupBox1
             // 
@@ -423,11 +400,11 @@
             this.timer_lbl.BorderColor = System.Drawing.Color.White;
             this.timer_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.timer_lbl.ForeColor = System.Drawing.Color.Crimson;
-            this.timer_lbl.Location = new System.Drawing.Point(85, 617);
+            this.timer_lbl.Location = new System.Drawing.Point(89, 609);
             this.timer_lbl.Name = "timer_lbl";
             this.timer_lbl.Size = new System.Drawing.Size(76, 31);
             this.timer_lbl.TabIndex = 17;
-            this.timer_lbl.Text = "00:30";
+            this.timer_lbl.Text = "00:00";
             // 
             // timerText_lbl
             // 
@@ -435,11 +412,60 @@
             this.timerText_lbl.BackColor = System.Drawing.Color.Transparent;
             this.timerText_lbl.BorderColor = System.Drawing.Color.White;
             this.timerText_lbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.timerText_lbl.Location = new System.Drawing.Point(101, 660);
+            this.timerText_lbl.Location = new System.Drawing.Point(105, 646);
             this.timerText_lbl.Name = "timerText_lbl";
             this.timerText_lbl.Size = new System.Drawing.Size(44, 17);
             this.timerText_lbl.TabIndex = 18;
             this.timerText_lbl.Text = "计时器";
+            // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // showAllQuestions_btn
+            // 
+            this.showAllQuestions_btn.BackColor = System.Drawing.Color.Transparent;
+            this.showAllQuestions_btn.BaseColor = System.Drawing.Color.DodgerBlue;
+            this.showAllQuestions_btn.BorderColor = System.Drawing.Color.DodgerBlue;
+            this.showAllQuestions_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.showAllQuestions_btn.DownBack = null;
+            this.showAllQuestions_btn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.showAllQuestions_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.showAllQuestions_btn.Location = new System.Drawing.Point(676, 613);
+            this.showAllQuestions_btn.MouseBack = null;
+            this.showAllQuestions_btn.Name = "showAllQuestions_btn";
+            this.showAllQuestions_btn.NormlBack = null;
+            this.showAllQuestions_btn.Size = new System.Drawing.Size(105, 40);
+            this.showAllQuestions_btn.TabIndex = 19;
+            this.showAllQuestions_btn.Text = "检索题库";
+            this.showAllQuestions_btn.UseVisualStyleBackColor = false;
+            this.showAllQuestions_btn.Click += new System.EventHandler(this.showAllQuestions_btn_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.answer_lbl);
+            this.panel1.Location = new System.Drawing.Point(55, 350);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(720, 237);
+            this.panel1.TabIndex = 2;
+            // 
+            // answer_lbl
+            // 
+            this.answer_lbl.AutoSize = true;
+            this.answer_lbl.BackColor = System.Drawing.Color.Transparent;
+            this.answer_lbl.BorderColor = System.Drawing.Color.White;
+            this.answer_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.answer_lbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.answer_lbl.Location = new System.Drawing.Point(67, 10);
+            this.answer_lbl.MaximumSize = new System.Drawing.Size(650, 0);
+            this.answer_lbl.MinimumSize = new System.Drawing.Size(650, 0);
+            this.answer_lbl.Name = "answer_lbl";
+            this.answer_lbl.Size = new System.Drawing.Size(650, 31);
+            this.answer_lbl.TabIndex = 1;
+            this.answer_lbl.Text = "Answers";
+            this.answer_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainPage
             // 
@@ -449,13 +475,14 @@
             this.BackLayout = false;
             this.BorderColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1024, 700);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.showAllQuestions_btn);
             this.Controls.Add(this.timerText_lbl);
             this.Controls.Add(this.timer_lbl);
             this.Controls.Add(this.name_lv);
             this.Controls.Add(this.back_btn);
             this.Controls.Add(this.setting_btn);
             this.Controls.Add(this.skinGroupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.showRightAnswer_btn);
             this.Controls.Add(this.splitScreen_btn);
             this.Controls.Add(this.selectStudent_btn);
@@ -468,18 +495,18 @@
             this.Text = "";
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.title_gb.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox1.PerformLayout();
             this.skinGroupBox2.ResumeLayout(false);
             this.skinGroupBox2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private CCWin.SkinControl.SkinLabel answer_lbl;
         private CCWin.SkinControl.SkinButton roll_btn;
         private CCWin.SkinControl.SkinLabel studentName_lbl;
         private CCWin.SkinControl.SkinButton selectStudent_btn;
@@ -491,7 +518,6 @@
         private CCWin.SkinControl.SkinButton showRightAnswer_btn;
         private CCWin.SkinControl.SkinLabel question_lbl;
         private System.Windows.Forms.GroupBox title_gb;
-        private System.Windows.Forms.GroupBox groupBox1;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private CCWin.SkinControl.SkinLabel wrong_lbl;
         private CCWin.SkinControl.SkinLabel right_lbl;
@@ -506,5 +532,9 @@
         public System.Windows.Forms.ListView name_lv;
         private CCWin.SkinControl.SkinLabel timer_lbl;
         private CCWin.SkinControl.SkinLabel timerText_lbl;
+        private System.Windows.Forms.Timer timer;
+        private CCWin.SkinControl.SkinButton showAllQuestions_btn;
+        private System.Windows.Forms.Panel panel1;
+        private CCWin.SkinControl.SkinLabel answer_lbl;
     }
 }

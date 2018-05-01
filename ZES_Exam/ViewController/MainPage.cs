@@ -39,6 +39,9 @@ namespace ZES_Exam
         public bool splitScreenOnWork = false;
         public bool showOrHideAnswer = false;
         public bool getAnyException = false;
+        public int timerMinute = 0;
+        public int timerSecond = 0;
+        public bool timerStarted = false;
         DualScreenPage splitedScreenPage;
         StartPage startPage;
         //列表排序用
@@ -74,6 +77,8 @@ namespace ZES_Exam
             {
                 rankMode_cb.Checked = true;
             }
+            timer.Start();
+            answer_lbl.Text = "";
         }
 
 
@@ -321,6 +326,8 @@ namespace ZES_Exam
 
         private void roll_btn_Click(object sender, EventArgs e)
         {
+            timer.Stop();
+            refreshTimer();
             if(settingModel.selectQuestionMode == 0)
             {
                 if (!rolling)
@@ -398,13 +405,15 @@ namespace ZES_Exam
             
         }
 
-        private void stopRolling()
+        public void stopRolling()
         {
             if (questionID == -1)
             {
                 return;
             }
             rollingTimer.Stop();
+            timer.Start();
+            SetFormHeight();
             showRightAnswer_btn.Enabled = true;
             if (paper.questions[questionID].answers != null)
             {
@@ -485,11 +494,48 @@ namespace ZES_Exam
             }
         }
 
+        public void refreshTimer()
+        {
+            string minStr = "";
+            string secStr = "";
+            if (settingModel.timerStarted)
+            {
+                timerStarted = settingModel.timerStarted;
+                timerMinute = settingModel.countingTime / 60;
+                timerSecond = settingModel.countingTime % 60;
+                if(timerMinute < 10)
+                {
+                    minStr = "0" + timerMinute;
+                }
+                else
+                {
+                    minStr = timerMinute.ToString();
+                }
+                if (timerSecond < 10)
+                {
+                    secStr = "0" + timerSecond;
+                }
+                else
+                {
+                    secStr = timerSecond.ToString();
+                }
+                timer_lbl.Text = minStr +":"+ secStr;
+            }
+            else
+            {
+                timerStarted = settingModel.timerStarted;
+                timerMinute = 0;
+                timerSecond = 0;
+                timer_lbl.Text = "00:00";
+            }
+        }
+
         public void updateListAndSettings()
         {
             name_lv.Items.Clear();
             name_lv.BeginUpdate();
             updateChosenCategories();
+            refreshTimer();
             if(settingModel.selectQuestionMode == 0)
             {
                 roll_btn.Text = "开始";
@@ -698,7 +744,7 @@ namespace ZES_Exam
                             //如果有之前的行，就保存到之前的行里面去
                             if(rankScoreColumn < 1)
                             {
-                                row.CreateCell(scoreCell).SetCellValue("计分," + paper.paperName + "," + DateTime.Now.ToString("yyMMdd-hh:mm"));
+                                row.CreateCell(scoreCell).SetCellValue("计分," + paper.paperName + "," + DateTime.Now.ToString("yyMMdd-HH:mm"));
                             }
                             else
                             {
@@ -859,6 +905,16 @@ namespace ZES_Exam
                 else
                 {
                     config.AppSettings.Settings["selectQuestionMode"].Value = settingModel.selectQuestionMode.ToString();
+                }
+
+                if (config.AppSettings.Settings["timerStarted"] == null)
+                {
+                    KeyValueConfigurationElement _k = new KeyValueConfigurationElement("timerStarted", settingModel.timerStarted.ToString());
+                    config.AppSettings.Settings.Add(_k);
+                }
+                else
+                {
+                    config.AppSettings.Settings["timerStarted"].Value = settingModel.timerStarted.ToString();
                 }
 
                 if (config.AppSettings.Settings["nameFile"] == null)
@@ -1200,7 +1256,7 @@ namespace ZES_Exam
             {
                 DataLogModel _model = new DataLogModel();
                 _model.rightOrWrong = rightOrWrong;
-                _model.time = DateTime.Now.ToString("yyyyMMdd-hh:mm");
+                _model.time = DateTime.Now.ToString("yyyyMMdd-HH:mm");
                 _model.studentName = allStudents[studentID].name;
                 _model.studentFile = nameFile.Split('\\')[nameFile.Split('\\').Length - 1];
                 _model.className = className;
@@ -1255,16 +1311,169 @@ namespace ZES_Exam
 
         private void setting_btn_Click(object sender, EventArgs e)
         {
-            if (!firstTimeChecked)
-            {
-                firstTimeChecked = true;
-            }
+
             if (settingModel == null)
             {
                 settingModel = new SettingModel();
             }
+            if (!firstTimeChecked)
+            {
+                firstTimeChecked = true;
+                settingModel.clearData = true;
+            }
             Settings _dialog = new Settings(settingModel,this);
             _dialog.Show();
+        }
+
+        private void timerTick(int _mode)
+        {//0倒计时，1正计时
+            string minStr;
+            string secStr;
+            if(_mode == 0)
+            {
+                if (timerMinute == 0 && timerSecond == 0)
+                {
+                    timer.Stop();
+                    timerStarted = false;
+                }
+                if (timerMinute < 10)
+                {
+                    minStr = "0" + timerMinute;
+                }
+                else
+                {
+                    minStr = timerMinute.ToString();
+                }
+                if (timerSecond < 10)
+                {
+                    secStr = "0" + timerSecond;
+                }
+                else
+                {
+                    secStr = timerSecond.ToString();
+                }
+                if (timerSecond == 0 && timerMinute != 0)
+                {
+                    timerSecond = 60;
+                    timerMinute = timerMinute - 1;
+                }
+                timerSecond = timerSecond - 1;
+                timer_lbl.Text = minStr + ":" + secStr;
+            }
+            else if(_mode == 1)
+            {
+                if (timerMinute < 10)
+                {
+                    minStr = "0" + timerMinute;
+                }
+                else
+                {
+                    minStr = timerMinute.ToString();
+                }
+                if (timerSecond < 10)
+                {
+                    secStr = "0" + timerSecond;
+                }
+                else
+                {
+                    secStr = timerSecond.ToString();
+                }
+                timerSecond = timerSecond + 1;
+                if (timerSecond == 60)
+                {
+                    timerSecond = 0;
+                    timerMinute = timerMinute + 1;
+                }
+
+                timer_lbl.Text = minStr + ":" + secStr;
+            }
+          
+            
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (timerStarted)
+            {
+                timerTick(0);
+            }
+            else
+            {
+                timerTick(1);
+            }
+        }
+
+        //设置答案label高度
+        private void SetFormHeight()
+        {
+            if (answer_lbl.Height >= panel1.Height)
+            {
+                if (answer_lbl.Height <= 237)  //指定的高度为500px，label高度超过500显示滚动条，panel的autoscroll一直为TRUE  
+                {
+                    int heightDiff = answer_lbl.Height - panel1.Height + 5;
+                    panel1.Height = answer_lbl.Height + 5;
+                    this.Height = this.Height + heightDiff;
+                }
+                else
+                {
+                    int heightDiff = 237 - panel1.Height + 5;
+                    panel1.Height = 237 + 5;
+                    this.Height = this.Height + heightDiff;
+                }
+            }
+        }
+
+        //选题界面传回值的方法
+        public void getQuestion(Question _question)
+        {
+            question_lbl.Text = splitString(_question.questionName, 25);
+            questionID = _question.questionID - 1;
+            stopRolling();
+        }
+
+        private void showAllQuestions_btn_Click(object sender, EventArgs e)
+        {
+            Paper _paper = new Paper();
+            List<Question> _questions = new List<Question>();
+            foreach (String _category in allChosenCategories)
+            {
+                foreach(Question _q in paper.questions)
+                {
+                    bool hasGotIt = false;
+                    Question _tempQ = new Question();
+                    for(int i = 0; i < _q.questionCategory.Split(',').Length; i++)
+                    {
+                        if (_category.Equals(_q.questionCategory.Split(',')[i]))
+                        {
+                            _tempQ = _q;
+                            bool _theSame = false;
+                            foreach(Question _tq in _questions)
+                            {
+                                if(_tq.questionID == _tempQ.questionID)
+                                {
+                                    _theSame = true;
+                                }
+                                if (_theSame)
+                                {
+                                    break;
+                                }
+                            }
+                            if (!_theSame)
+                            {
+                                _questions.Add(_tempQ);
+                                hasGotIt = true;
+                            }
+                        }
+                        if (hasGotIt)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            _paper.questions = _questions;
+            ShowAllQuestion _form = new ShowAllQuestion(_paper,this);
+            _form.Show();
         }
     }
 }

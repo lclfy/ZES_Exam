@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ZES_Exam
 {
-    class Question
+    public class Question
     {
         public int questionID { get; set; }
         public string questionCategory { get; set; }

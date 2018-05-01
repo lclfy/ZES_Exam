@@ -59,10 +59,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RemoveSameObject.cs" />
     <Compile Include="Model\DataLogModel.cs" />
     <Compile Include="Model\QuestionCategory.cs" />
     <Compile Include="Model\SettingModel.cs" />
     <Compile Include="mySorter.cs" />
+    <Compile Include="ViewController\ShowAllQuestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewController\ShowAllQuestion.Designer.cs">
+      <DependentUpon>ShowAllQuestion.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewController\DualScreenPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +105,9 @@
       <DependentUpon>StudentListCheck.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Students.cs" />
+    <EmbeddedResource Include="ViewController\ShowAllQuestion.resx">
+      <DependentUpon>ShowAllQuestion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ViewController\DualScreenPage.resx">
       <DependentUpon>DualScreenPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,7 +133,9 @@
     <EmbeddedResource Include="ViewController\StudentListCheck.resx">
       <DependentUpon>StudentListCheck.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

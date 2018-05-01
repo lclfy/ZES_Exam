@@ -218,6 +218,14 @@ namespace ZES_Exam.ViewController
                     }
                 }
                 model.countingTime = int.Parse(timer_tb.Text.ToString());
+                if(model.countingTime > 0)
+                {
+                    model.timerStarted = true;
+                }
+                else
+                {
+                    model.timerStarted = false;
+                }
                 model.selectQuestionMode = questionMode;
                 mainPage.settingModel = model;
                 mainPage.updateListAndSettings();

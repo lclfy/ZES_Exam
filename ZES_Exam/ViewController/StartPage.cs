@@ -130,6 +130,10 @@ namespace ZES_Exam
             int.TryParse(ConfigurationManager.AppSettings["selectQuestionMode"], out selectQuestionMode);
             _settingModel.selectQuestionMode = selectQuestionMode;
 
+            bool timerStarted = false;
+            bool.TryParse(ConfigurationManager.AppSettings["timerStarted"], out timerStarted);
+            _settingModel.timerStarted = timerStarted;
+
             _settingModel.nameFile = ConfigurationManager.AppSettings["nameFile"];
             _settingModel.testFile = ConfigurationManager.AppSettings["testFile"];
             return _settingModel;
