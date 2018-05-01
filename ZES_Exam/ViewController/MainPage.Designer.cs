@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainPage));
             this.question_lbl = new CCWin.SkinControl.SkinLabel();
             this.roll_btn = new CCWin.SkinControl.SkinButton();
             this.studentName_lbl = new CCWin.SkinControl.SkinLabel();
@@ -39,7 +40,6 @@
             this.right_btn = new CCWin.SkinControl.SkinButton();
             this.splitScreen_btn = new CCWin.SkinControl.SkinButton();
             this.showRightAnswer_btn = new CCWin.SkinControl.SkinButton();
-            this.title_gb = new System.Windows.Forms.GroupBox();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.wrong_lbl = new CCWin.SkinControl.SkinLabel();
             this.right_lbl = new CCWin.SkinControl.SkinLabel();
@@ -58,26 +58,26 @@
             this.showAllQuestions_btn = new CCWin.SkinControl.SkinButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.answer_lbl = new CCWin.SkinControl.SkinLabel();
-            this.title_gb.SuspendLayout();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
             this.skinGroupBox1.SuspendLayout();
             this.skinGroupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // question_lbl
             // 
             this.question_lbl.BackColor = System.Drawing.Color.Transparent;
-            this.question_lbl.BorderColor = System.Drawing.Color.White;
-            this.question_lbl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.question_lbl.BorderColor = System.Drawing.Color.Transparent;
             this.question_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.question_lbl.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.question_lbl.Location = new System.Drawing.Point(3, 17);
-            this.question_lbl.MaximumSize = new System.Drawing.Size(720, 250);
-            this.question_lbl.MinimumSize = new System.Drawing.Size(720, 250);
+            this.question_lbl.ForeColor = System.Drawing.Color.White;
+            this.question_lbl.Location = new System.Drawing.Point(6, 0);
+            this.question_lbl.MaximumSize = new System.Drawing.Size(700, 320);
+            this.question_lbl.MinimumSize = new System.Drawing.Size(700, 250);
             this.question_lbl.Name = "question_lbl";
-            this.question_lbl.Size = new System.Drawing.Size(720, 250);
+            this.question_lbl.Size = new System.Drawing.Size(700, 320);
             this.question_lbl.TabIndex = 0;
-            this.question_lbl.Text = "题目";
             this.question_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.question_lbl.Click += new System.EventHandler(this.question_lbl_Click);
             // 
@@ -90,7 +90,7 @@
             this.roll_btn.DownBack = null;
             this.roll_btn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.roll_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.roll_btn.Location = new System.Drawing.Point(233, 609);
+            this.roll_btn.Location = new System.Drawing.Point(227, 661);
             this.roll_btn.MouseBack = null;
             this.roll_btn.Name = "roll_btn";
             this.roll_btn.NormlBack = null;
@@ -103,9 +103,9 @@
             // studentName_lbl
             // 
             this.studentName_lbl.BackColor = System.Drawing.Color.Transparent;
-            this.studentName_lbl.BorderColor = System.Drawing.Color.White;
+            this.studentName_lbl.BorderColor = System.Drawing.Color.Transparent;
             this.studentName_lbl.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.studentName_lbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.studentName_lbl.ForeColor = System.Drawing.Color.White;
             this.studentName_lbl.Location = new System.Drawing.Point(6, 29);
             this.studentName_lbl.Name = "studentName_lbl";
             this.studentName_lbl.Size = new System.Drawing.Size(133, 25);
@@ -122,7 +122,7 @@
             this.selectStudent_btn.DownBack = null;
             this.selectStudent_btn.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.selectStudent_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.selectStudent_btn.Location = new System.Drawing.Point(826, 563);
+            this.selectStudent_btn.Location = new System.Drawing.Point(827, 599);
             this.selectStudent_btn.MouseBack = null;
             this.selectStudent_btn.Name = "selectStudent_btn";
             this.selectStudent_btn.NormlBack = null;
@@ -187,7 +187,7 @@
             this.splitScreen_btn.DownBack = null;
             this.splitScreen_btn.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.splitScreen_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.splitScreen_btn.Location = new System.Drawing.Point(631, 45);
+            this.splitScreen_btn.Location = new System.Drawing.Point(155, 45);
             this.splitScreen_btn.MouseBack = null;
             this.splitScreen_btn.Name = "splitScreen_btn";
             this.splitScreen_btn.NormlBack = null;
@@ -205,7 +205,7 @@
             this.showRightAnswer_btn.DownBack = null;
             this.showRightAnswer_btn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.showRightAnswer_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.showRightAnswer_btn.Location = new System.Drawing.Point(426, 609);
+            this.showRightAnswer_btn.Location = new System.Drawing.Point(420, 661);
             this.showRightAnswer_btn.MouseBack = null;
             this.showRightAnswer_btn.Name = "showRightAnswer_btn";
             this.showRightAnswer_btn.NormlBack = null;
@@ -215,20 +215,11 @@
             this.showRightAnswer_btn.UseVisualStyleBackColor = false;
             this.showRightAnswer_btn.Click += new System.EventHandler(this.showRightAnswer_btn_Click);
             // 
-            // title_gb
-            // 
-            this.title_gb.Controls.Add(this.question_lbl);
-            this.title_gb.Location = new System.Drawing.Point(55, 83);
-            this.title_gb.Name = "title_gb";
-            this.title_gb.Size = new System.Drawing.Size(720, 250);
-            this.title_gb.TabIndex = 9;
-            this.title_gb.TabStop = false;
-            // 
             // skinGroupBox1
             // 
             this.skinGroupBox1.BackColor = System.Drawing.Color.Transparent;
             this.skinGroupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.skinGroupBox1.BorderColor = System.Drawing.SystemColors.ActiveCaption;
+            this.skinGroupBox1.BorderColor = System.Drawing.Color.Transparent;
             this.skinGroupBox1.Controls.Add(this.wrong_lbl);
             this.skinGroupBox1.Controls.Add(this.right_lbl);
             this.skinGroupBox1.Controls.Add(this.studentName_lbl);
@@ -237,9 +228,9 @@
             this.skinGroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.skinGroupBox1.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinGroupBox1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.skinGroupBox1.Location = new System.Drawing.Point(826, 445);
+            this.skinGroupBox1.Location = new System.Drawing.Point(827, 481);
             this.skinGroupBox1.Name = "skinGroupBox1";
-            this.skinGroupBox1.RectBackColor = System.Drawing.Color.White;
+            this.skinGroupBox1.RectBackColor = System.Drawing.Color.Transparent;
             this.skinGroupBox1.RoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.skinGroupBox1.Size = new System.Drawing.Size(145, 105);
             this.skinGroupBox1.TabIndex = 13;
@@ -255,7 +246,7 @@
             this.wrong_lbl.BackColor = System.Drawing.Color.Transparent;
             this.wrong_lbl.BorderColor = System.Drawing.Color.White;
             this.wrong_lbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.wrong_lbl.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.wrong_lbl.ForeColor = System.Drawing.Color.Black;
             this.wrong_lbl.Location = new System.Drawing.Point(77, 53);
             this.wrong_lbl.Name = "wrong_lbl";
             this.wrong_lbl.Size = new System.Drawing.Size(56, 17);
@@ -269,7 +260,7 @@
             this.right_lbl.BackColor = System.Drawing.Color.Transparent;
             this.right_lbl.BorderColor = System.Drawing.Color.White;
             this.right_lbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.right_lbl.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.right_lbl.ForeColor = System.Drawing.Color.Black;
             this.right_lbl.Location = new System.Drawing.Point(16, 53);
             this.right_lbl.Name = "right_lbl";
             this.right_lbl.Size = new System.Drawing.Size(56, 17);
@@ -291,14 +282,14 @@
             // 
             this.skinGroupBox2.BackColor = System.Drawing.Color.Transparent;
             this.skinGroupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.skinGroupBox2.BorderColor = System.Drawing.SystemColors.ActiveCaption;
+            this.skinGroupBox2.BorderColor = System.Drawing.Color.Transparent;
             this.skinGroupBox2.Controls.Add(this.rankMode_cb);
             this.skinGroupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.skinGroupBox2.Font = new System.Drawing.Font("微软雅黑 Light", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinGroupBox2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.skinGroupBox2.Location = new System.Drawing.Point(826, 609);
+            this.skinGroupBox2.Location = new System.Drawing.Point(826, 651);
             this.skinGroupBox2.Name = "skinGroupBox2";
-            this.skinGroupBox2.RectBackColor = System.Drawing.Color.White;
+            this.skinGroupBox2.RectBackColor = System.Drawing.Color.Transparent;
             this.skinGroupBox2.RoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.skinGroupBox2.Size = new System.Drawing.Size(145, 54);
             this.skinGroupBox2.TabIndex = 14;
@@ -369,15 +360,18 @@
             // 
             // name_lv
             // 
+            this.name_lv.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("name_lv.BackgroundImage")));
+            this.name_lv.BackgroundImageTiled = true;
             this.name_lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this._name,
             this._score});
             this.name_lv.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.name_lv.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.name_lv.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.name_lv.GridLines = true;
             this.name_lv.Location = new System.Drawing.Point(827, 89);
             this.name_lv.MultiSelect = false;
             this.name_lv.Name = "name_lv";
-            this.name_lv.Size = new System.Drawing.Size(138, 350);
+            this.name_lv.Size = new System.Drawing.Size(145, 386);
             this.name_lv.TabIndex = 16;
             this.name_lv.UseCompatibleStateImageBehavior = false;
             this.name_lv.View = System.Windows.Forms.View.Details;
@@ -400,7 +394,7 @@
             this.timer_lbl.BorderColor = System.Drawing.Color.White;
             this.timer_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.timer_lbl.ForeColor = System.Drawing.Color.Crimson;
-            this.timer_lbl.Location = new System.Drawing.Point(89, 609);
+            this.timer_lbl.Location = new System.Drawing.Point(88, 664);
             this.timer_lbl.Name = "timer_lbl";
             this.timer_lbl.Size = new System.Drawing.Size(76, 31);
             this.timer_lbl.TabIndex = 17;
@@ -412,11 +406,12 @@
             this.timerText_lbl.BackColor = System.Drawing.Color.Transparent;
             this.timerText_lbl.BorderColor = System.Drawing.Color.White;
             this.timerText_lbl.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.timerText_lbl.Location = new System.Drawing.Point(105, 646);
+            this.timerText_lbl.Location = new System.Drawing.Point(102, 692);
             this.timerText_lbl.Name = "timerText_lbl";
             this.timerText_lbl.Size = new System.Drawing.Size(44, 17);
             this.timerText_lbl.TabIndex = 18;
             this.timerText_lbl.Text = "计时器";
+            this.timerText_lbl.Click += new System.EventHandler(this.timerText_lbl_Click);
             // 
             // timer
             // 
@@ -432,7 +427,7 @@
             this.showAllQuestions_btn.DownBack = null;
             this.showAllQuestions_btn.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.showAllQuestions_btn.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.showAllQuestions_btn.Location = new System.Drawing.Point(676, 613);
+            this.showAllQuestions_btn.Location = new System.Drawing.Point(670, 665);
             this.showAllQuestions_btn.MouseBack = null;
             this.showAllQuestions_btn.Name = "showAllQuestions_btn";
             this.showAllQuestions_btn.NormlBack = null;
@@ -445,36 +440,64 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.skinLabel1);
             this.panel1.Controls.Add(this.answer_lbl);
-            this.panel1.Location = new System.Drawing.Point(55, 350);
+            this.panel1.Location = new System.Drawing.Point(95, 415);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(720, 237);
+            this.panel1.Size = new System.Drawing.Size(652, 240);
             this.panel1.TabIndex = 2;
             // 
             // answer_lbl
             // 
             this.answer_lbl.AutoSize = true;
             this.answer_lbl.BackColor = System.Drawing.Color.Transparent;
-            this.answer_lbl.BorderColor = System.Drawing.Color.White;
-            this.answer_lbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.answer_lbl.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.answer_lbl.Location = new System.Drawing.Point(67, 10);
-            this.answer_lbl.MaximumSize = new System.Drawing.Size(650, 0);
-            this.answer_lbl.MinimumSize = new System.Drawing.Size(650, 0);
+            this.answer_lbl.BorderColor = System.Drawing.Color.Transparent;
+            this.answer_lbl.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.answer_lbl.ForeColor = System.Drawing.Color.White;
+            this.answer_lbl.Location = new System.Drawing.Point(18, 40);
+            this.answer_lbl.MaximumSize = new System.Drawing.Size(620, 0);
+            this.answer_lbl.MinimumSize = new System.Drawing.Size(620, 0);
             this.answer_lbl.Name = "answer_lbl";
-            this.answer_lbl.Size = new System.Drawing.Size(650, 31);
+            this.answer_lbl.Size = new System.Drawing.Size(620, 28);
             this.answer_lbl.TabIndex = 1;
-            this.answer_lbl.Text = "Answers";
             this.answer_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
+            this.panel2.Controls.Add(this.question_lbl);
+            this.panel2.Location = new System.Drawing.Point(55, 89);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(720, 320);
+            this.panel2.TabIndex = 20;
+            // 
+            // skinLabel1
+            // 
+            this.skinLabel1.AutoSize = true;
+            this.skinLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel1.BorderColor = System.Drawing.Color.Silver;
+            this.skinLabel1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.skinLabel1.ForeColor = System.Drawing.Color.White;
+            this.skinLabel1.Location = new System.Drawing.Point(18, 13);
+            this.skinLabel1.Name = "skinLabel1";
+            this.skinLabel1.Size = new System.Drawing.Size(52, 27);
+            this.skinLabel1.TabIndex = 1;
+            this.skinLabel1.Text = "答案";
             // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackLayout = false;
-            this.BorderColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1024, 700);
+            this.BorderColor = System.Drawing.Color.Transparent;
+            this.CaptionBackColorBottom = System.Drawing.Color.Transparent;
+            this.CaptionBackColorTop = System.Drawing.Color.Transparent;
+            this.ClientSize = new System.Drawing.Size(1024, 730);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.showAllQuestions_btn);
             this.Controls.Add(this.timerText_lbl);
@@ -487,20 +510,20 @@
             this.Controls.Add(this.splitScreen_btn);
             this.Controls.Add(this.selectStudent_btn);
             this.Controls.Add(this.roll_btn);
-            this.Controls.Add(this.title_gb);
             this.Controls.Add(this.skinGroupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximumSize = new System.Drawing.Size(1024, 730);
             this.MdiBackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Name = "MainPage";
             this.Text = "";
             this.Load += new System.EventHandler(this.MainPage_Load);
-            this.title_gb.ResumeLayout(false);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox1.PerformLayout();
             this.skinGroupBox2.ResumeLayout(false);
             this.skinGroupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,7 +540,6 @@
         private CCWin.SkinControl.SkinButton splitScreen_btn;
         private CCWin.SkinControl.SkinButton showRightAnswer_btn;
         private CCWin.SkinControl.SkinLabel question_lbl;
-        private System.Windows.Forms.GroupBox title_gb;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private CCWin.SkinControl.SkinLabel wrong_lbl;
         private CCWin.SkinControl.SkinLabel right_lbl;
@@ -536,5 +558,7 @@
         private CCWin.SkinControl.SkinButton showAllQuestions_btn;
         private System.Windows.Forms.Panel panel1;
         private CCWin.SkinControl.SkinLabel answer_lbl;
+        private System.Windows.Forms.Panel panel2;
+        private CCWin.SkinControl.SkinLabel skinLabel1;
     }
 }

@@ -13,11 +13,16 @@ namespace ZES_Exam
     {
         string currentQuestion = "";
         MainPage main;
+        //列表排序用
+        private mySorter sorter;
         public DualScreenPage(MainPage _main, string _question = "")
         {
             main = _main;
             currentQuestion = _question;
             InitializeComponent();
+            sorter = new mySorter();
+            this.name_lv.ListViewItemSorter = sorter;
+            sorter.SortOrder = SortOrder.Descending;
         }
 
         private void DualScreenPage_Load(object sender, EventArgs e)
@@ -33,6 +38,11 @@ namespace ZES_Exam
         }
 
         private void answer_lbl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void name_lv_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

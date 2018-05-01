@@ -79,6 +79,7 @@ namespace ZES_Exam
             }
             timer.Start();
             answer_lbl.Text = "";
+            startRolling(1);
         }
 
 
@@ -473,6 +474,7 @@ namespace ZES_Exam
                     if (splitScreenOnWork)
                     {
                         answer_lbl.Text = splitString(paper.questions[questionID].rightAnswer, 25);
+                        splitedScreenPage.answer_lbl.Text = "请作答";
                     }
                     else
                     {
@@ -486,6 +488,7 @@ namespace ZES_Exam
                 if (splitScreenOnWork)
                 {
                     answer_lbl.Text = splitString(paper.questions[questionID].rightAnswer,25);
+                    splitedScreenPage.answer_lbl.Text = "请作答";
                 }
                 else
                 {
@@ -528,12 +531,21 @@ namespace ZES_Exam
                 timerSecond = 0;
                 timer_lbl.Text = "00:00";
             }
+            if (splitScreenOnWork)
+            {
+                splitedScreenPage.timer_lbl.Text = timer_lbl.Text;
+            }
         }
 
         public void updateListAndSettings()
         {
             name_lv.Items.Clear();
             name_lv.BeginUpdate();
+            if (splitScreenOnWork)
+            {
+                splitedScreenPage.name_lv.Items.Clear();
+                splitedScreenPage.name_lv.BeginUpdate();
+            }
             updateChosenCategories();
             refreshTimer();
             if(settingModel.selectQuestionMode == 0)
@@ -563,12 +575,25 @@ namespace ZES_Exam
                     }
                 }
                 name_lv.Items.Add(_lvi);
+                ListViewItem _lviSplited = (ListViewItem)_lvi.Clone();
+                if (splitScreenOnWork)
+                {
+                    splitedScreenPage.name_lv.Items.Add(_lviSplited);
+                }
             }
             if (settingModel.rankModeEnabled)
             {
                 name_lv.Sort();
+                if (splitScreenOnWork)
+                {
+                    splitedScreenPage.name_lv.Sort();
+                }
             }
             name_lv.EndUpdate();
+            if (splitScreenOnWork)
+            {
+                splitedScreenPage.name_lv.EndUpdate();
+            }
         }
 
         private void initOriginalScore()
@@ -1041,6 +1066,7 @@ namespace ZES_Exam
                 splitScreenOnWork = true;
                 showOrHideAnswer = true;
                 showRightAnswer();
+                updateListAndSettings();
             }
             else
             {
@@ -1387,7 +1413,10 @@ namespace ZES_Exam
 
                 timer_lbl.Text = minStr + ":" + secStr;
             }
-          
+            if (splitScreenOnWork)
+            {
+                splitedScreenPage.timer_lbl.Text = timer_lbl.Text;
+            }
             
         }
 
@@ -1427,7 +1456,14 @@ namespace ZES_Exam
         public void getQuestion(Question _question)
         {
             question_lbl.Text = splitString(_question.questionName, 25);
+            showOrHideAnswer = false;
+            showRightAnswer_btn.Text = "显示答案";
+            if (splitScreenOnWork)
+            {
+                splitedScreenPage.question_lbl.Text = question_lbl.Text;
+            }
             questionID = _question.questionID - 1;
+            refreshTimer();
             stopRolling();
         }
 
@@ -1475,5 +1511,11 @@ namespace ZES_Exam
             ShowAllQuestion _form = new ShowAllQuestion(_paper,this);
             _form.Show();
         }
+
+        private void timerText_lbl_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

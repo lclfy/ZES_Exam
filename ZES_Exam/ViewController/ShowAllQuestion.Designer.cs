@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.questions_lv = new System.Windows.Forms.ListView();
-            this.search_tb = new CCWin.SkinControl.SkinWaterTextBox();
-            this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
             this.questionName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.questionCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.search_tb = new CCWin.SkinControl.SkinWaterTextBox();
+            this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
             this.SuspendLayout();
             // 
             // questions_lv
@@ -40,7 +40,9 @@
             this.questions_lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.questionName,
             this.questionCategory});
+            this.questions_lv.Cursor = System.Windows.Forms.Cursors.Default;
             this.questions_lv.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.questions_lv.ForeColor = System.Drawing.SystemColors.WindowText;
             this.questions_lv.FullRowSelect = true;
             this.questions_lv.Location = new System.Drawing.Point(22, 75);
             this.questions_lv.MultiSelect = false;
@@ -49,8 +51,19 @@
             this.questions_lv.TabIndex = 0;
             this.questions_lv.UseCompatibleStateImageBehavior = false;
             this.questions_lv.View = System.Windows.Forms.View.Details;
+            this.questions_lv.SelectedIndexChanged += new System.EventHandler(this.questions_lv_SelectedIndexChanged);
             this.questions_lv.Click += new System.EventHandler(this.questions_lv_Click);
             this.questions_lv.DoubleClick += new System.EventHandler(this.questions_lv_DoubleClick);
+            // 
+            // questionName
+            // 
+            this.questionName.Text = "题目名称";
+            this.questionName.Width = 250;
+            // 
+            // questionCategory
+            // 
+            this.questionCategory.Text = "题目分类";
+            this.questionCategory.Width = 140;
             // 
             // search_tb
             // 
@@ -76,16 +89,6 @@
             this.skinLabel1.Size = new System.Drawing.Size(56, 17);
             this.skinLabel1.TabIndex = 11;
             this.skinLabel1.Text = "搜索题目";
-            // 
-            // questionName
-            // 
-            this.questionName.Text = "题目名称";
-            this.questionName.Width = 250;
-            // 
-            // questionCategory
-            // 
-            this.questionCategory.Text = "题目分类";
-            this.questionCategory.Width = 140;
             // 
             // ShowAllQuestion
             // 

@@ -47,6 +47,7 @@ namespace ZES_Exam
                         searchedQuestions.Add(_tempQ);
                         ListViewItem lvi = new ListViewItem(_q.questionName);
                         lvi.SubItems.Add(_q.questionCategory);
+
                         questions_lv.Items.Add(lvi);
                         searched = true;
                     }
@@ -101,6 +102,11 @@ namespace ZES_Exam
         private void search_tb_TextChanged(object sender, EventArgs e)
         {
             searchList();
+        }
+
+        private void questions_lv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
