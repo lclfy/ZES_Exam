@@ -64,43 +64,32 @@
     <Compile Include="Model\QuestionCategory.cs" />
     <Compile Include="Model\SettingModel.cs" />
     <Compile Include="mySorter.cs" />
-    <Compile Include="ViewController\ShowAllQuestion.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewController\ShowAllQuestion.cs" />
     <Compile Include="ViewController\ShowAllQuestion.Designer.cs">
       <DependentUpon>ShowAllQuestion.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewController\DualScreenPage.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewController\DualScreenPage.cs" />
     <Compile Include="ViewController\DualScreenPage.Designer.cs">
       <DependentUpon>DualScreenPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewController\MainPage.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewController\MainPage.cs" />
     <Compile Include="ViewController\MainPage.Designer.cs">
       <DependentUpon>MainPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Paper.cs" />
     <Compile Include="Model\Question.cs" />
-    <Compile Include="ViewController\Settings.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewController\Settings.cs" />
     <Compile Include="ViewController\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewController\StartPage.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewController\Skin_Mac.cs" />
+    <Compile Include="ViewController\StartPage.cs" />
     <Compile Include="ViewController\StartPage.Designer.cs">
       <DependentUpon>StartPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewController\StudentListCheck.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ViewController\StudentListCheck.cs" />
     <Compile Include="ViewController\StudentListCheck.Designer.cs">
       <DependentUpon>StudentListCheck.cs</DependentUpon>
     </Compile>
